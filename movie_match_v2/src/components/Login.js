@@ -17,7 +17,7 @@ function Login() {
     }, [theme]);
 
     return (
-        <div className={`bg-${theme}_back h-screen flex justify-center items-center flex-col`}>
+        <div className={`${theme === "dark" ? "bg-dark_back" : "bg-light_back"} h-screen flex justify-center items-center flex-col`}>
             <button
                 className={`overflow-hidden shadow-md shadow-slate-500 absolute top-2 right-12 bg-black ${theme === "dark" ? "dark:bg-gray-100" : "dark:bg-gray-800"
                     } rounded-full py-2 w-16`}
