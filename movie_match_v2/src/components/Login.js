@@ -1,49 +1,32 @@
-import React, { useEffect, useState } from "react";
-import { motion } from 'framer-motion';
-import "../global.css"
-import { BsFillMoonFill } from "react-icons/bs";
-import { FaSun } from "react-icons/fa";
+import React, { useEffect } from "react";
+import { motion } from "framer-motion";
+import "../global.css";
+import { useTheme } from "../context/ThemeContext";
+import { useIcon } from "../context/IconContext";
+
 function Login() {
-    const [toggleMode, setToggleMode] = useState('light')
+    const { theme, toggleTheme } = useTheme();
+    const { Icon, toggleIcon } = useIcon();
+
     useEffect(() => {
-        if (toggleMode === "dark") {
-            document.documentElement.classList.add("dark")
+        if (theme === "dark") {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
         }
-        else {
-
-            document.documentElement.classList.remove("dark")
-        }
-    }, [toggleMode]);
-    const switchTheme = () => {
-        setToggleMode(toggleMode === "dark" ? "light" : "dark")
-    };
-    const switchIcon = () => {
-        if (toggleMode === "dark") {
-            return (
-                <motion.div
-                    animate={{ x: 5 }}
-                >
-                    <FaSun color="orange" key="sun-icon" />
-                </motion.div>
-            );
-
-        }
-        else {
-            return (
-                <motion.div
-                initial={{ x: 0 }}
-                    animate={{ x: 40 }}
-                >
-                    <BsFillMoonFill color="white" key="moon-icon" />
-                </motion.div>
-            );
-        }
-    }
+    }, [theme]);
 
     return (
-        <div className=" bg-light_back dark:bg-dark_back h-screen flex justify-center items-center flex-col">
-            <button className="overflow-hidden shadow-md shadow-slate-500 absolute top-2 right-12 bg-black dark:bg-gray-100 rounded-full py-2 w-16 " onClick={switchTheme}>
-                {switchIcon()}
+        <div className={`bg-${theme}_back h-screen flex justify-center items-center flex-col`}>
+            <button
+                className={`overflow-hidden shadow-md shadow-slate-500 absolute top-2 right-12 bg-black ${theme === "dark" ? "dark:bg-gray-100" : "dark:bg-gray-800"
+                    } rounded-full py-2 w-16`}
+                onClick={() => {
+                    toggleTheme();
+                    toggleIcon();
+                }}
+            >
+                <motion.div animate={{ x: theme === "dark" ? 5 : 40 }}>{Icon}</motion.div>
             </button>
             <div className="bg-light_border border border-neutral-500 p-20 dark:bg-dark_border">
                 <h1 className="text-center text-5xl pb-14 font-movieMatch text-black dark:text-white">Movie Match</h1>

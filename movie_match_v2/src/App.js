@@ -4,15 +4,21 @@ import './App.css';
 import Register from './components/Register';
 import Login from './components/Login';
 import "./global.css"
+import { ThemeProvider } from "./context/ThemeContext";
+import { IconProvider } from './context/IconContext';
 function App() {
   return (
     <>
       <Routes>
         <Route id="login" path="/" element={
-            <Login />
+          <ThemeProvider>
+            <IconProvider>
+              <Login />
+            </IconProvider>
+          </ThemeProvider>
         } />
         <Route id="register" path="/register" element={
-            <Register/>
+          <Register />
         } />
 
       </Routes>
