@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import "../global.css"
 import { BsFillMoonFill } from "react-icons/bs";
 import { FaSun } from "react-icons/fa";
-function Login() {
+function Register()
+{
     const [toggleMode, setToggleMode] = useState('light')
     useEffect(() => {
         if (toggleMode === "dark") {
@@ -46,24 +47,27 @@ function Login() {
                 {switchIcon()}
             </button>
             <div className="bg-light_border border border-neutral-500 p-20 dark:bg-dark_border">
-                <h1 className="text-center text-5xl pb-14 font-movieMatch text-black dark:text-white">Movie Match</h1>
+                <h1 className="text-center text-5xl pb-14 text-black dark:text-white">Create Account</h1>
                 <form>
+                <div className="pb-10">
+                        <input id="email" placeholder="Email" className="rounded-md p-2 pr-10 bg-slate-100" />
+                    </div>
                     <div className="pb-10">
                         <input id="username" placeholder="Username" className="rounded-md p-2 pr-10 bg-slate-100" />
                     </div>
-                    <div className="pb-6">
+                    <div className="pb-10">
                         <input id="password" placeholder="Password" className="rounded-md p-2 pr-10 bg-slate-100" />
                     </div>
-                    <div className="pb-4">
-                        <button type="button" class="font-movieMatch text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Login</button>
+                    <div className="pb-6">
+                        <input id="password_confirm" placeholder="Password Confirm" className="rounded-md p-2 pr-10 bg-slate-100" />
                     </div>
-                    <a href="/register">
-                        <button type="button" class="font-movieMatch text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Create Account</button>
-                    </a>
+
+                    <div className="pb-4">
+                        <button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Next</button>
+                    </div>
                 </form>
             </div>
         </div>
     );
 }
-
-export default Login;
+export default Register;

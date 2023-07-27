@@ -1,13 +1,21 @@
 import React from 'react';
+import { Routes, Route } from "react-router-dom"
 import './App.css';
+import Register from './components/Register';
 import Login from './components/Login';
 import "./global.css"
 function App() {
   return (
     <>
-    <div id="login" className='bg-login_background_color login-background'>
-      <Login/>
-    </div>
+      <Routes>
+        <Route id="login" path="/" element={
+            <Login />
+        } />
+        <Route id="register" path="/register" element={
+            <Register/>
+        } />
+
+      </Routes>
     </>
 
   );
