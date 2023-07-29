@@ -1,29 +1,27 @@
 import React from 'react';
-import { Routes, Route } from "react-router-dom"
 import './App.css';
 import Register from './components/Register';
 import Login from './components/Login';
-import "./global.css"
-import { ThemeProvider } from "./context/ThemeContext";
+import Home from './components/Home';
+import './global.css';
+import { Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from './context/ThemeContext';
 import { IconProvider } from './context/IconContext';
+import { AuthProvider } from './context/AuthContext';
+
 function App() {
   return (
-    <>
-      <Routes>
-        <Route id="login" path="/" element={
-          <ThemeProvider>
-            <IconProvider>
-              <Login />
-            </IconProvider>
-          </ThemeProvider>
-        } />
-        <Route id="register" path="/register" element={
-          <Register />
-        } />
-
-      </Routes>
-    </>
-
+    <ThemeProvider>
+      <IconProvider>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/Home" element={<Home/>} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </AuthProvider>
+      </IconProvider>
+    </ThemeProvider>
   );
 }
 
