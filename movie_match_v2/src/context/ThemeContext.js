@@ -8,7 +8,7 @@ export function useTheme() {
 
 export function ThemeProvider({ children }) {
   const storedTheme = localStorage.getItem("theme");
-  const initialTheme = storedTheme ? storedTheme : "light";
+  const initialTheme = storedTheme ? storedTheme : "dark";
   const [theme, setTheme] = useState(initialTheme);
 
 
