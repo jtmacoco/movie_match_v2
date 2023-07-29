@@ -9,7 +9,9 @@ export function useIcon() {
 }
 
 export function IconProvider({ children }) {
-  const [isDarkIcon, setIsDarkIcon] = useState(false);
+  const storedTheme = localStorage.getItem("theme");
+  const isDark = storedTheme === "dark" ? true : false
+  const [isDarkIcon, setIsDarkIcon] = useState(isDark);
 
   const toggleIcon = () => {
     setIsDarkIcon((prevIconState) => !prevIconState);

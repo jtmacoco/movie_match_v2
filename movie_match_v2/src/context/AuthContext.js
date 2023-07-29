@@ -42,6 +42,7 @@ export function AuthProvider({ children }) {
   function updatePassword1(password){
     return updatePassword(auth.currentUser, password)
     .then(() => {
+      console.log(auth.currentUser.password)
       console.log("Password updated successfully!");
     })
     .catch((error) => {
