@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import "../global.css";
+import { Link } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import { useIcon } from "../context/IconContext";
 import { useAuth } from "../context/AuthContext";
-
+import db from "../Firebase"; 
 function Register() {
     const { theme, toggleTheme } = useTheme();
     const { Icon, toggleIcon } = useIcon();
@@ -76,6 +77,9 @@ function Register() {
                         <button disabled={loading} type="submit" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Next</button>
                     </div>
                 </form>
+                <Link to="/register">
+                        <button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Login</button>
+                    </Link>
             </div>
         </div>
     );
