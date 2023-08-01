@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { auth } from "../Firebase";
-import { createUserWithEmailAndPassword} from "firebase/auth";
+import { auth } from "../firebase";
+import { EmailAuthProvider, createUserWithEmailAndPassword, reauthenticateWithCredential } from "firebase/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { updateEmail } from "firebase/auth";
 import { updatePassword } from "firebase/auth";
+import { paste } from "@testing-library/user-event/dist/paste";
 
 const AuthContext = React.createContext();
 
@@ -15,39 +16,26 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [usernameCred, setUsername] = useState();
-  const [loading,setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
-  function signup(email, password, username) {
-    return createUserWithEmailAndPassword(auth,email, password)
-      .then((userCredential) => {
-        setUsername(username);
-      })
-      .catch((error) => {
-        console.log("Signup Error:", error);
-      });
+  function signup(email, password) {
+    return createUserWithEmailAndPassword(auth, email, password)
   }
-  function login(email,password){
-    return signInWithEmailAndPassword(auth,email,password)
+  function login(email, password) {
+    return signInWithEmailAndPassword(auth, email, password)
   }
-  function logout(){
+  function logout() {
     return auth.signOut()
   }
-  function resetPassword(email){
-    return sendPasswordResetEmail(auth,email)
+  function resetPassword(email) {
+    return sendPasswordResetEmail(auth, email)
   }
   function updateEmail1(email) {
-    return updateEmail(auth.currentUser,email)
+    return updateEmail(auth.currentUser, email)
   }
 
   function updatePassword1(password){
     return updatePassword(auth.currentUser, password)
-    .then(() => {
-      console.log(auth.currentUser.password)
-      console.log("Password updated successfully!");
-    })
-    .catch((error) => {
-      console.log("Error updating password:", error);
-    });
   }
   useEffect(() => {
     const unsub = auth.onAuthStateChanged((user) => {
@@ -71,7 +59,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading&&children}
+      {!loading && children}
     </AuthContext.Provider>
   );
 }

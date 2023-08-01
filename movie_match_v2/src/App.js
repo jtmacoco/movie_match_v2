@@ -7,6 +7,7 @@ import Home from './components/Home';
 import PrivateRoute from './components/PrivateRoute';
 import UpdateProfile from './components/UpdateProfile';
 import ForgotPassword from './components/ForgotPassword';
+import Movies from './components/Movies';
 import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { IconProvider } from './context/IconContext';
@@ -27,6 +28,11 @@ function App() {
             <Route path="/UpdateProfile" element={
               <PrivateRoute>
                 <UpdateProfile/>
+              </PrivateRoute>
+            } />
+             <Route path="/Movies" element={
+              <PrivateRoute>
+                <Movies/>
               </PrivateRoute>
             } />
             <Route path="/ForgotPassword" element={<ForgotPassword />} />

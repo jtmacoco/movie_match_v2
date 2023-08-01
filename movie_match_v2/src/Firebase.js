@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore } from "firebase/firestore";
 import "firebase/auth"
 //import { getAnalytics } from "firebase/analytics";
 
@@ -14,6 +15,7 @@ const app = initializeApp({
 });
 
 const auth = getAuth(app)
+export const db = getFirestore(app)
 //export const auth=app.auth();
 //export { auth, createUserWithEmailAndPassword };
 export default app;

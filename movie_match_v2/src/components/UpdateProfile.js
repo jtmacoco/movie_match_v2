@@ -10,6 +10,7 @@ export default function UpdateProfile() {
     const { Icon, toggleIcon } = useIcon();
     const { currentUser, updateEmail1, updatePassword1 } = useAuth();
     const [email, setEmail] = useState();
+    const [oldPassword, setOldPassword] = useState();
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
     const [error, setError] = useState('');
@@ -68,8 +69,11 @@ export default function UpdateProfile() {
                     <div className="pb-10">
                         <input id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="rounded-md p-2 pr-10 bg-slate-100" />
                     </div>
+                     <div className="pb-10">
+                        <input id="oldPassword" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} placeholder="Old Password" className="rounded-md p-2 pr-10 bg-slate-100" />
+                    </div>
                     <div className="pb-10">
-                        <input type="password" id="password" placeholder="Leave Blank to Keep Same" onChange={(p) => setPassword(p.target.value)} value={password} className="rounded-md p-2  bg-slate-100 w-52" />
+                        <input type="newPassword" id="Password" placeholder="Leave Blank to Keep Same" onChange={(p) => setPassword(p.target.value)} value={password} className="rounded-md p-2  bg-slate-100 w-52" />
                     </div>
                     <div className="pb-6">
                         <input type="password" id="confirm_password" placeholder="Leave Blank to Keep Same" onChange={(p) => setConfirmPassword(p.target.value)} value={confirmPassword} className="rounded-md p-2  bg-slate-100 w-52" />
