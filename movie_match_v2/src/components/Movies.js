@@ -49,6 +49,13 @@ export default function Movies() {
         }
     }, [theme]);
 
+    const handleKeyUp = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            get_movie();
+        }
+    };
+
     return (
         <div className={`${theme === "dark" ? "bg-dark_back" : "bg-light_back"} h-screen flex justify-center items-center flex-col`}>
             <button
@@ -68,6 +75,7 @@ export default function Movies() {
                         placeholder="Movie"
                         value={movie}
                         onChange={(e) => setMovie(e.target.value)}
+                        onKeyUp={handleKeyUp} // Add this line to handle key up
                         className="bg-light_border rounded-md p-2 w-80"
                     />
                 </div>
@@ -87,7 +95,7 @@ export default function Movies() {
                         <input id="username" placeholder="Enter Username" className="rounded-md p-2 pr-10 bg-slate-100" />
                     </div>
                     <div className="pb-2">
-                        <h1 className="font-bold text-xl">Current Movie List</h1>
+                        <h1 className="font-bold text-xl dark:text-white">Current Movie List</h1>
                     </div>
                     <div className="pb-4">
                         <button disabled={loading} type="submit" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Next</button>
@@ -95,27 +103,30 @@ export default function Movies() {
 
                 </form>
             </div>
-            <div className="absolute left-20 top-40  overflow-hidden">
+            <div scroll className="absolute w-1/2 left-20 top-40 overflow-y-auto max-h-[calc(100vh-16rem)]  ">
                 {loading && <p>Loading...</p>}
                 {error && <p>{error}</p>}
                 {movieData.map((movieItem) => (
                     <div key={movieItem.id} >
-
                         <TERipple key={movieItem.id} rippleColor="light">
                             <button onClick={() => toggleCollapse(movieItem.id)} className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800 shadow- shadow-blue-500/50 dark:shadow-md dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                                 {movieItem.title}
                             </button>
                         </TERipple>
-                        <TECollapse scroll show={collapseStates[movieItem.id]}>
-                            <div className="block pb-4 w-1/2 rounded-lg bg-white p-6 shadow-lg dark:bg-neutral-700 dark:text-neutral-50 max-h-80 overflow-y-auto">
-
+                        <div className="pb-1">
+                        <TECollapse  scroll show={collapseStates[movieItem.id]}>
+                            <div className="dark:text-white bg-light_border border border-neutral-500  dark:bg-dark_border rounded-md">
                                 <div className="flex items-center justify-center">
                                     <img className="w-fit h-80" src={`https://image.tmdb.org/t/p/original${movieItem.poster_path}`} />
                                 </div>
+                                <h1 className="font-bold">Release Date: {movieItem.release_date}</h1>
                                 <h1 className="font-bold">Description</h1>
+                                <div className="pb-2">
                                 {movieItem.overview}
+</div>
                             </div>
                         </TECollapse>
+                        </div>
                     </div>
                 ))}
             </div>
