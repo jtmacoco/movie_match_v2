@@ -7,6 +7,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { TECollapse, TERipple } from "tw-elements-react";
 import { IoIosAddCircle } from "react-icons/io";
 import { AiFillMinusCircle } from "react-icons/ai";
+import { auth, db } from "../firebase";
+import { collection, addDoc } from "firebase/firestore";
+import { useAuth } from "../context/AuthContext";
 export default function Movies() {
     const { theme, toggleTheme } = useTheme();
     const { Icon, toggleIcon } = useIcon();
@@ -16,7 +19,9 @@ export default function Movies() {
     const [error, setError] = useState(null);
     const nav = useNavigate()
     const [collapseStates, setCollapseStates] = useState({});
-    const [movieList, setMovieList] = useState([])
+    const [movieList, setMovieList] = useState([]);
+    const [username, setUsername] = useState('');
+    const {currentUser} = useAuth();
 
 
     const toggleCollapse = (movieId) => {
@@ -57,12 +62,27 @@ export default function Movies() {
             get_movie();
         }
     };
-    const handleRemove = (remove_movie)=>{
-        const remove = movieList.filter(function(el){
-            return el.title !== remove_movie.title &&
-            el.release_date !== remove_movie.release_date
-        })
+    const handleRemove = (remove_movie) => {
+        const remove = movieList.filter(function (el) {
+            console.log("el.title: ", el.title);
+            console.log("remove_movie.title: ", remove_movie.title);
+            return el.release_date !== remove_movie.release_date || el.title !== remove_movie.title;
+        });
         setMovieList(remove);
+    };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const docRef = await addDoc(collection(db, "userData"), {
+                username: username,
+                movieList: movieList,
+                uid:currentUser.uid,
+            });
+            nav("/home")
+        //    console.log("Document written with ID: ", docRef.id);
+        } catch (e) {
+            console.error("error adding document: ", e);
+        }
     }
 
 
@@ -100,33 +120,35 @@ export default function Movies() {
                         </button>
                     </div>
                 </div>
-                <div className=" absolute right-20 top-20 bg-light_border border border-neutral-500 p-20 dark:bg-dark_border rounded-md">
-                    <div className="pb-10">
-                        <input id="username" placeholder="Enter Username" className="rounded-md p-2 pr-10 bg-slate-100" />
+                <form onSubmit={handleSubmit}>
+                    <div className=" absolute right-20 top-20 bg-light_border border border-neutral-500 p-20 dark:bg-dark_border rounded-md">
+                        <div className="pb-10">
+                            <input id="username" placeholder="Enter Username" value={username} onChange={(u) => setUsername(u.target.value)} className="rounded-md p-2 pr-10 bg-slate-100" />
+                        </div>
+                        <div className="pb-2">
+                            <h1 className="font-bold text-xl dark:text-white">Current Movie List</h1>
+                            {movieList.length === 0 ? <p className="dark:text-white">please add some movies to your list</p> : movieList.map((movieListItem) => (
+                                <div className="flex flex-cols items-center">
+                                    <div className=" w-fit text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                                        {movieListItem.title}
+                                    </div >
+                                    <button onClick={() => handleRemove(movieListItem)} >
+                                        <AiFillMinusCircle color={`${theme === "dark" ? "white" : "black"}`} />
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                        <div className="pb-4">
+                            <button disabled={loading} type="submit" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Next</button>
+                        </div>
                     </div>
-                    <div className="pb-2">
-                        <h1 className="font-bold text-xl dark:text-white">Current Movie List</h1>
-                        {movieList.map((movieListItem) => (
-                            <div className="flex flex-cols items-center">
-                                <div className=" w-fit text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-                                    {movieListItem.title}
-                                </div >
-                                <button onClick={()=>handleRemove(movieListItem)} >
-                                    <AiFillMinusCircle color={`${theme === "dark" ? "white" : "black"}`} />
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="pb-4">
-                        <button disabled={loading} type="submit" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Next</button>
-                    </div>
-                </div>
+                </form>
                 <div scroll className="absolute w-1/2 left-20 top-40 overflow-y-auto max-h-[calc(100vh-16rem)]  ">
                     {loading && <p className="dark:text-white text-black">Loading...</p>}
                     {error && <p>{error}</p>}
                     {movieData.map((movieItem) => (
                         <div key={movieItem.id}>
-                            <div className="flex flex-cols items-center ">
+                            <div key={movieItem.id} className="flex flex-cols items-center ">
                                 <TERipple rippleColor="light">
                                     <button
                                         onClick={() => toggleCollapse(movieItem.id)}
