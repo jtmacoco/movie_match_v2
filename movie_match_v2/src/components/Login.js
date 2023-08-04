@@ -53,7 +53,7 @@ function Login() {
                 <motion.div animate={{ x: theme === "dark" ? 5 : 40 }}>{Icon}</motion.div>
             </button>
             {error && <alert>{error}</alert>}
-            <div className="bg-light_border border border-neutral-500 p-20 dark:bg-dark_border">
+            <div className="rounded-md bg-light_border border border-neutral-500 p-20 dark:bg-dark_border">
                 <h1 className="text-center text-5xl pb-14 font-movieMatch text-black dark:text-white">Movie Match</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="pb-10">

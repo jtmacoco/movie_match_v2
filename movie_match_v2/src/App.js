@@ -8,10 +8,13 @@ import PrivateRoute from './components/PrivateRoute';
 import UpdateProfile from './components/UpdateProfile';
 import ForgotPassword from './components/ForgotPassword';
 import Movies from './components/Movies';
+import Settings from './components/Settings';
+import UpdateEmail from './components/UpdateEmail';
 import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { IconProvider } from './context/IconContext';
 import { AuthProvider } from './context/AuthContext';
+import UpdatePassword from './components/UpdatePassword';
 
 function App() {
   return (
@@ -27,14 +30,30 @@ function App() {
             } />
             <Route path="/UpdateProfile" element={
               <PrivateRoute>
-                <UpdateProfile/>
+                <UpdateProfile />
               </PrivateRoute>
             } />
-             <Route path="/Movies" element={
+            <Route path="/Movies" element={
               <PrivateRoute>
-                <Movies/>
+                <Movies />
               </PrivateRoute>
             } />
+            <Route path="/UpdateEmail" element={
+              <PrivateRoute>
+                <UpdateEmail/>
+              </PrivateRoute>
+            } />
+            <Route path="/UpdatePassword" element={
+              <PrivateRoute>
+                <UpdatePassword/>
+              </PrivateRoute>
+            } />
+            <Route path="/Settings" element={
+              <PrivateRoute>
+                <Settings/>
+              </PrivateRoute>
+            } />
+
             <Route path="/ForgotPassword" element={<ForgotPassword />} />
             <Route path="/register" element={<Register />} />
           </Routes>
