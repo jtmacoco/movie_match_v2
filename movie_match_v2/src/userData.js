@@ -1,5 +1,5 @@
 import React from 'react'
-import { auth, db } from "../firebase";
+import { auth, db } from "./firebase";
 import { collection, getDocs } from "firebase/firestore";
 
 export const userData = async() =>{

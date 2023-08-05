@@ -32,7 +32,9 @@ export default function Navbar() {
                                 </Link>
                             </li>
                             <li className='pb-8'>
+                                <Link to="/movieList">
                                 Movie List
+</Link>
                             </li>
                             <li className='pb-8'>
                                 Messages

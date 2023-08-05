@@ -15,6 +15,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { IconProvider } from './context/IconContext';
 import { AuthProvider } from './context/AuthContext';
 import UpdatePassword from './components/UpdatePassword';
+import MovieList from './components/MovieList';
 
 function App() {
   return (
@@ -36,6 +37,11 @@ function App() {
             <Route path="/Movies" element={
               <PrivateRoute>
                 <Movies />
+              </PrivateRoute>
+            } />
+             <Route path="/MovieList" element={
+              <PrivateRoute>
+                <MovieList/>
               </PrivateRoute>
             } />
             <Route path="/UpdateEmail" element={
