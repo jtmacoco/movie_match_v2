@@ -18,5 +18,5 @@ const auth = getAuth(app)
 export const db = getFirestore(app)
 //export const auth=app.auth();
 //export { auth, createUserWithEmailAndPassword };
-export default app;
 export {auth}
+export default app;
