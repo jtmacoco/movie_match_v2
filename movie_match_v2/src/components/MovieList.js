@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {auth, db} from "../firebase"
+import { auth, db } from "../firebase"
 import { userData } from '../userData'
 import { useTheme } from "../context/ThemeContext";
 import { useIcon } from "../context/IconContext";
@@ -36,16 +36,19 @@ export default function MovieList() {
 
         setData(filterData)
     }
-    const updateMovieList = async() =>{
-        try{
+    const updateMovieList = async () => {
+        try {
+            console.log( addMovie );
             const docRef = doc(db, 'userData', documentId[0]);
             await updateDoc(docRef, {
                 movieList: arrayUnion(addMovie),
             });
-        console.log('movie added');
-    }catch(error){
-        console.error('error adding movie: ', error);
-    }
+            console.log('movie added');
+        } catch (error) {
+            console.log(documentId)
+            console.log(addMovie);
+            console.error('error adding movie: ', error);
+        }
 
     }
     const options = {
@@ -62,6 +65,21 @@ export default function MovieList() {
             .then(response => { setLoading(false); setMovieData(response.results) })
             .catch(err => console.error(err))
     }
+    const getAddMovie = (movieId) => {
+        const movie = movieData.find((value) => value.id === movieId);
+        if (movie) {
+            setAddMovie(movie);
+            console.log(movie.title)
+        } else {
+            console.log("Movie not found.");
+        }
+    };
+    useEffect(() => {
+        if (addMovie) {
+            updateMovieList() 
+          console.log("Found movie:", addMovie.title); // This will show the correct movie title.
+        }
+      }, [addMovie]);
     useEffect(() => {
         fetchData()
     }, [])
@@ -72,6 +90,7 @@ export default function MovieList() {
             document.documentElement.classList.remove("dark");
         }
     }, [theme]);
+
     const checkMovie = () => {
         if (movieData.length === 0) {
             return [];
@@ -90,15 +109,15 @@ export default function MovieList() {
     };
     const seenMovies = checkMovie();
 
-    const displayAdd = (movie, movieId) => {
+    const displayAdd = (movieId) => {
         if (seenMovies.length === 0) {
             return (<>
-                <button onClick={()=>{setAddMovie(movie); updateMovieList()}}>
-                            <p>add</p>
-                            <div className='absolute top-1 right-1/3 '>
-                                <IoIosAddCircle color="white">add</IoIosAddCircle>
-                            </div>
-                        </button>
+                <button onClick={() => { getAddMovie(movieId);   }}>
+                    <p>add</p>
+                    <div className='absolute top-1 right-1/3 '>
+                        <IoIosAddCircle color="white">add</IoIosAddCircle>
+                    </div>
+                </button>
             </>)
         }
         return seenMovies.map(seen => {
@@ -113,7 +132,7 @@ export default function MovieList() {
             else {
                 return (
                     <>
-                        <button onClick={()=>{setAddMovie(seen); updateMovieList()}}>
+                        <button onClick={() => { getAddMovie(movieId);}}>
                             <p>add</p>
                             <div className='absolute top-1 right-1/3 '>
                                 <IoIosAddCircle color="white">add</IoIosAddCircle>
@@ -209,7 +228,7 @@ export default function MovieList() {
                                                 } opacity-80 text-white text-center absolute  bg-black bottom-0  w-[256px] h-20 rounded-lg`} >
 
 
-                                            {displayAdd(movieInfo,movieInfo.id)}
+                                            {displayAdd(movieInfo.id)}
 
                                         </div>
                                     </div>
