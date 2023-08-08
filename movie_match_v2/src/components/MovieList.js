@@ -75,16 +75,20 @@ export default function MovieList() {
             if (docSnap.exists()) {
                 const docData = docSnap.data();
                 
-                // Assuming 'movieList' is a nested array field
                 console.log("remove id, ", removeMovie[0].id);
                 const updatedMovieList = docData.movieList.filter(movie => movie.id !== removeMovie[0].id);
-
-                console.log("trying to print ", updatedMovieList.map((info) => info.title));
-                
-                // Update the document with the modified data
                 await updateDoc(docRef, { movieList: updatedMovieList });
-    
-                console.log('movie has been removed');
+                setData(prevData => {
+                    return prevData.map(item => {
+                        if (item.id === documentId[0]) {
+                            return {
+                                ...item,
+                                movieList: updatedMovieList,
+                            };
+                        }
+                        return item;
+                    });
+                });
             } else {
                 console.log('Document not found');
             }
@@ -212,11 +216,6 @@ export default function MovieList() {
             get_movie();
         }
     };
-
-    //console.log(data.map(info => (
-    //    info.movieList.map(movieInfo => (movieInfo.id)
-    //))))
-
     return (
         <div className={`flex flex-col min-h-screen ${theme === "dark" ? "bg-dark_back" : "bg-light_back"} bg-cover overflow-y-auto`}>
             <button
@@ -233,8 +232,8 @@ export default function MovieList() {
             <div className='flex justify-center items-center'>
                 <h1 className="absolute top-5 text-center text-5xl pb-14 font-movieMatch text-black dark:text-white">Your Movie List</h1>
             </div>
-            <div className='relative top-24  flex justify-center '>
-                <div className='pl-10 flex  pt-4 pb-10 flex-cols gap-4 overflow-x-auto scroll-smooth'>
+            <div className='relative top-24 w-screen  '>
+                <div className='pl-10 w-screen items-center justify-center flex  pt-4 pb-10 flex-cols gap-4 overflow-x-auto scroll-smooth'>
                     {data.map(info => (
                         info.movieList.map(movieInfo => (
                             <div className='pt-4 div-flex flex-none '>
