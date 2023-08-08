@@ -67,6 +67,9 @@ export default function MovieList() {
         }
 
     }
+    const sleep = ms => new Promise(
+        resolve => setTimeout(resolve, ms)
+      );
     const handleRemove = async () => {
         try {
             const docRef = doc(db, 'userData', documentId[0]);
@@ -77,6 +80,9 @@ export default function MovieList() {
                 
                 console.log("remove id, ", removeMovie[0].id);
                 const updatedMovieList = docData.movieList.filter(movie => movie.id !== removeMovie[0].id);
+                const updatedHoverState = { ...hoverState };
+                delete updatedHoverState[documentId[0]][removeMovie[0].id];
+                setHoverState(updatedHoverState);
                 await updateDoc(docRef, { movieList: updatedMovieList });
                 setData(prevData => {
                     return prevData.map(item => {
@@ -237,17 +243,17 @@ export default function MovieList() {
                     {data.map(info => (
                         info.movieList.map(movieInfo => (
                             <div className='pt-4 div-flex flex-none '>
-                                <motion.div whileHover={{ scale: 1.2 }}>
+                                <motion.div whileHover={{ scale: 1.2 }}
+                                        onMouseEnter={() => { toggleHover(info.id, movieInfo.id)}}
+                                        onMouseLeave={() => {toggleHover(info.id, movieInfo.id)}}
+                                        
+                                >
                                     <img
-                                        onMouseEnter={() => toggleHover(info.id, movieInfo.id)}
-                                        onMouseLeave={() => toggleHover(info.id, movieInfo.id)}
                                         key={movieInfo.title}
                                         className="w-fit h-96 lg:h-80 xl:h-80 2xl:h-96 border border-neutral-500 rounded-xl"
                                         src={`https://image.tmdb.org/t/p/original${movieInfo.poster_path}`}
                                     />
                                     <div
-                                        onMouseEnter={() => toggleHover(info.id, movieInfo.id)}
-                                        onMouseLeave={() => toggleHover(info.id, movieInfo.id)}
                                         className={`${hoverState[info.id]?.[movieInfo.id] ? "block" : "hidden"
                                             } opacity-80 text-white text-center absolute  bg-black bottom-0  w-[214px] h-20 rounded-lg`} >
                                         <button onClick={()=>{ getRemoveMovie(movieInfo.id)}}>
@@ -263,7 +269,7 @@ export default function MovieList() {
                     ))}
                 </div>
             </div>
-            <div className='absolute bottom-1/4 items-center justify-center w-full'>
+            <div className='absolute bottom-1/4 2xl:bottom-1/3 items-center justify-center w-full'>
                 <div className=' flex items-center justify-center w-full'>
                     <div>
                         <input
