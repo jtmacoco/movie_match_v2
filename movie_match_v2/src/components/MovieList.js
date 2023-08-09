@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { auth, db } from "../firebase"
 import { userData } from '../userData'
 import { useTheme } from "../context/ThemeContext";
@@ -240,20 +240,20 @@ export default function MovieList() {
         setIsMouseDown(false);
       };
     
-      const handleMouseMove = (e) => {
+      const handleMouseMove = (e,id) => {
         if (!isMouseDown) return;
     
         const deltaX = e.clientX - startX;
         setScrollX(scrollX - deltaX);
-        console.log("scrollX: ", scrollX*2);
-        console.log("startX: ", startX);
+//        console.log("scrollX: ", scrollX*2);
+ //       console.log("startX: ", startX);
         
-        var right = document.getElementById("image-container")
+        var right = document.getElementById(id)
         right.scrollLeft= right.scrollLeft+(scrollX*3);
         setStartX(e.clientX);
       };
     return (
-        <div className={`flex flex-col min-h-screen ${theme === "dark" ? "bg-dark_back" : "bg-light_back"} bg-cover overflow-y-auto`}>
+        <div className={`flex flex-col min-h-screen ${theme === "dark" ? "bg-dark_back" : "bg-light_back"} bg-cover `}>
             <button
                 className={`overflow-hidden shadow-md shadow-slate-500 absolute top-2 right-12  ${theme === "dark" ? "bg-light_border" : "bg-dark_border"
                     } rounded-full py-2 w-16`}
@@ -268,11 +268,11 @@ export default function MovieList() {
             <div className='flex justify-center items-center'>
                 <h1 className="absolute top-5 text-center text-5xl pb-14 font-movieMatch text-black dark:text-white">Your Movie List</h1>
             </div>
-            <div className='relative top-24 w-screen  '>
-                <div className='pl-10 w-screen items-center justify-center flex  pt-4 pb-10 flex-cols gap-4 overflow-x-auto scroll-smooth'>
+            <div className='absolute top-24 '>
+                <ul onMouseLeave={handleMouseUp} id="list-container" className='  w-screen  px-8 flex pt-10 pb-10 flex-cols gap-5 overflow-x-auto scroll-smooth'>
                     {data.map(info => (
                         info.movieList.map(movieInfo => (
-                            <div className='pt-4 div-flex flex-none '>
+                            <li className='div-flex flex-none '>
                                 <motion.div whileHover={{ scale: 1.2 }}
                                     onMouseEnter={() => { setHover(true); toggleHover(info.id, movieInfo.id) }}
                                     onMouseLeave={() => {
@@ -284,9 +284,13 @@ export default function MovieList() {
 
                                 >
                                     <img
+                                     onMouseDown={handleMouseDown}
+                                     onMouseUp={handleMouseUp}
+                                     onMouseMove={(e)=>handleMouseMove(e,"list-container")}
                                         key={movieInfo.title}
                                         className="w-fit h-96 lg:h-80 xl:h-80 2xl:h-96 border border-neutral-500 rounded-xl"
                                         src={`https://image.tmdb.org/t/p/original${movieInfo.poster_path}`}
+                                        draggable="false"
                                     />
                                     <div
                                         className={`${hoverState[info.id]?.[movieInfo.id] ? "block" : "hidden"
@@ -299,10 +303,10 @@ export default function MovieList() {
                                         </button>
                                     </div>
                                 </motion.div>
-                            </div>
+                            </li>
                         ))
                     ))}
-                </div>
+                </ul>
             </div>
             <div className='absolute bottom-1/4 2xl:bottom-1/3 items-center justify-center w-full'>
                 <div className=' flex items-center justify-center w-full'>
@@ -326,7 +330,7 @@ export default function MovieList() {
                     </div>
                 </div>
                 <div >
-                    <ul id="image-container" className={`pl-10 ${theme === "dark" ? "bg-dark_back" : "bg-light_back"} overflow-y-hidden flex flex-row absolute overflow-x-auto scroll-smooth`}>
+                    <ul onMouseLeave={handleMouseUp} id="image-container" className={`pl-10 ${theme === "dark" ? "bg-dark_back" : "bg-light_back"} overflow-y-hidden flex flex-row absolute overflow-x-auto scroll-smooth`}>
                         {movieData.map((movieInfo, index) => (
                             <li
                             key={index} className=" py-12 d-flex flex-none flex flex-cols">
@@ -338,7 +342,8 @@ export default function MovieList() {
                                     <img
                                     onMouseDown={handleMouseDown}
                                     onMouseUp={handleMouseUp}
-                                    onMouseMove={handleMouseMove}
+                                    onMouseMove={(e)=>handleMouseMove(e,"image-container")}
+                                    
                                         className="fit h-96 px-1 rounded-2xl "
                                         src={`https://image.tmdb.org/t/p/original${movieInfo.poster_path}`}
                                         alt={`Movie Poster ${index}`}
