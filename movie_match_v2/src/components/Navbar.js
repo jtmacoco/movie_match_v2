@@ -21,7 +21,7 @@ export default function Navbar() {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -50 }}
                         transition={{ duration: .5 }}
-                        className={`flex bg-light_border dark:bg-dark_border h-screen absolute left-0 top-0 w-40 border border-neutral-500 `}>
+                        className={`absolute flex bg-light_border dark:bg-dark_border h-screen left-0 top-0 w-40  rounded-md`}>
                         <button onClick={() => setMenu((prev) => !prev)} className='absolute top-0 pt-2 pl-1'>
                             <AiOutlineClose size={18} color={`${theme === "dark" ? "white" : "black"}`} />
                         </button>

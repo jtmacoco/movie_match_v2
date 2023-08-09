@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "../global.css";
+import 'firebase/firestore';
 import { useTheme } from "../context/ThemeContext";
 import { useIcon } from "../context/IconContext";
 import { Link, useNavigate } from "react-router-dom";

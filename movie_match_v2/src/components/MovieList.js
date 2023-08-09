@@ -23,6 +23,14 @@ export default function MovieList() {
     const [documentId, setDocumentId] = useState('');
     const [addMovie, setAddMovie] = useState({});
     const [removeMovie, setRemoveMovie] = useState({});
+    const [mouseDown, setMouseDown] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollX, setScrollX] = useState(0);
+    const [isMouseDown, setIsMouseDown] = useState(false);
+    const testSlide = () =>{
+        var right = document.getElementById("image-container")
+        right.scrollLeft= right.scrollLeft+200;
+    }
     const toggleHover = (listId, movieId) => {
         setHoverState((prev) => ({
             ...prev,
@@ -67,15 +75,15 @@ export default function MovieList() {
         }
 
     }
-   
+
     const handleRemove = async () => {
         try {
             const docRef = doc(db, 'userData', documentId[0]);
             const docSnap = await getDoc(docRef);
-    
+
             if (docSnap.exists()) {
                 const docData = docSnap.data();
-                
+
                 console.log("remove id, ", removeMovie[0].id);
                 const updatedMovieList = docData.movieList.filter(movie => movie.id !== removeMovie[0].id);
                 const updatedHoverState = { ...hoverState };
@@ -101,8 +109,8 @@ export default function MovieList() {
             console.error('Error removing movie: ', error);
         }
     };
-    
-    
+
+
     const options = {
         method: 'GET',
         headers: {
@@ -126,14 +134,14 @@ export default function MovieList() {
             console.log("Movie not found.");
         }
     };
-    const getRemoveMovie = (movieId) =>{
+    const getRemoveMovie = (movieId) => {
         //const movie = data.movieList.find((value) => value.id === movieId);
-//        const movie = data.find((value) => value.id === movieId);
-        const movie = data.map((info)=>info.movieList.find((value) => value.id === movieId)); 
+        //        const movie = data.find((value) => value.id === movieId);
+        const movie = data.map((info) => info.movieList.find((value) => value.id === movieId));
         console.log("movie: ", movie);
         if (movie) {
             setRemoveMovie(movie);
-            console.log("found movie : ",movie)
+            console.log("found movie : ", movie)
         } else {
             console.log("Movie not found.");
         }
@@ -141,15 +149,15 @@ export default function MovieList() {
     useEffect(() => {
         if (addMovie) {
             updateMovieList()
-            console.log("Found movie:", addMovie.title); 
+            console.log("Found movie:", addMovie.title);
         }
     }, [addMovie]);
-    useEffect(()=>{
-        if(removeMovie){
+    useEffect(() => {
+        if (removeMovie) {
             handleRemove()
-            console.log("Found movie:", removeMovie.title); 
+            console.log("Found movie:", removeMovie.title);
         }
-    },[removeMovie])
+    }, [removeMovie])
     useEffect(() => {
         fetchData()
     }, [])
@@ -207,7 +215,7 @@ export default function MovieList() {
                     <button onClick={() => { getAddMovie(movieId); }}>
                         <p>Add</p>
                         <div className='absolute top-1 right-1/3 '>
-                        
+
                             <IoIosAddCircle color="white">add</IoIosAddCircle>
                         </div>
                     </button>
@@ -222,6 +230,28 @@ export default function MovieList() {
             get_movie();
         }
     };
+    const handleMouseDown = (e) => {
+        setScrollX(0);
+        setStartX(e.clientX);
+        setIsMouseDown(true);
+      };
+    
+      const handleMouseUp = () => {
+        setIsMouseDown(false);
+      };
+    
+      const handleMouseMove = (e) => {
+        if (!isMouseDown) return;
+    
+        const deltaX = e.clientX - startX;
+        setScrollX(scrollX - deltaX);
+        console.log("scrollX: ", scrollX*2);
+        console.log("startX: ", startX);
+        
+        var right = document.getElementById("image-container")
+        right.scrollLeft= right.scrollLeft+(scrollX*3);
+        setStartX(e.clientX);
+      };
     return (
         <div className={`flex flex-col min-h-screen ${theme === "dark" ? "bg-dark_back" : "bg-light_back"} bg-cover overflow-y-auto`}>
             <button
@@ -244,15 +274,14 @@ export default function MovieList() {
                         info.movieList.map(movieInfo => (
                             <div className='pt-4 div-flex flex-none '>
                                 <motion.div whileHover={{ scale: 1.2 }}
-                                        onMouseEnter={() => { setHover(true); toggleHover(info.id, movieInfo.id)}}
-                                        onMouseLeave={() => {
-                                            if(hover)
-                                            {
-                                                toggleHover(info.id, movieInfo.id)
-                                                setHover(false)
-                                            }
-                                        }}
-                                        
+                                    onMouseEnter={() => { setHover(true); toggleHover(info.id, movieInfo.id) }}
+                                    onMouseLeave={() => {
+                                        if (hover) {
+                                            toggleHover(info.id, movieInfo.id)
+                                            setHover(false)
+                                        }
+                                    }}
+
                                 >
                                     <img
                                         key={movieInfo.title}
@@ -262,7 +291,7 @@ export default function MovieList() {
                                     <div
                                         className={`${hoverState[info.id]?.[movieInfo.id] ? "block" : "hidden"
                                             } opacity-80 text-white text-center absolute  bg-black bottom-0  w-[214px] 2xl:w-[258px] h-20 rounded-lg`} >
-                                        <button onClick={()=>{ getRemoveMovie(movieInfo.id)}}>
+                                        <button onClick={() => { getRemoveMovie(movieInfo.id) }}>
                                             <p>Remove</p>
                                             <div className='absolute top-1 right-1/4 '>
                                                 <AiFillMinusCircle color="white" />
@@ -296,22 +325,27 @@ export default function MovieList() {
                         </button>
                     </div>
                 </div>
-                <div className=' bg-full h-min-screen'>
-                    <div className={`pl-10 ${theme === "dark" ? "bg-dark_back" : "bg-light_back"} overflow-y-hidden flex flex-row absolute overflow-x-auto scroll-smooth`}>
+                <div >
+                    <ul id="image-container" className={`pl-10 ${theme === "dark" ? "bg-dark_back" : "bg-light_back"} overflow-y-hidden flex flex-row absolute overflow-x-auto scroll-smooth`}>
                         {movieData.map((movieInfo, index) => (
-                            <div key={index} className="py-12 d-flex flex-none flex flex-cols">
-                                <motion.div whileHover={{ scale: 1.2 }}>
+                            <li
+                            key={index} className=" py-12 d-flex flex-none flex flex-cols">
+                                <motion.div whileHover={{ scale: 1.2 }}
+                                    onMouseEnter={() => toggleHover(movieData.id, movieInfo.id)}
+                                    onMouseLeave={() => toggleHover(movieData.id, movieInfo.id)}
+                                >
+
                                     <img
-                                        onMouseEnter={() => toggleHover(movieData.id, movieInfo.id)}
-                                        onMouseLeave={() => toggleHover(movieData.id, movieInfo.id)}
-                                        className="w-fit h-96 px-1 rounded-2xl "
+                                    onMouseDown={handleMouseDown}
+                                    onMouseUp={handleMouseUp}
+                                    onMouseMove={handleMouseMove}
+                                        className="fit h-96 px-1 rounded-2xl "
                                         src={`https://image.tmdb.org/t/p/original${movieInfo.poster_path}`}
                                         alt={`Movie Poster ${index}`}
+                                        draggable="false"
                                     />
                                     <div className='pl-1'>
                                         <div
-                                            onMouseEnter={() => toggleHover(movieData.id, movieInfo.id)}
-                                            onMouseLeave={() => toggleHover(movieData.id, movieInfo.id)}
                                             className={`${hoverState[movieData.id]?.[movieInfo.id] ? "block" : "hidden"
                                                 } opacity-80 text-white text-center absolute  bg-black bottom-0  w-[256px] h-20 rounded-lg`} >
 
@@ -322,10 +356,10 @@ export default function MovieList() {
                                     </div>
 
                                 </motion.div>
-                            </div>
+                            </li>
 
                         ))}
-                    </div>
+                    </ul>
                 </div>
             </div>
             <Navbar />
