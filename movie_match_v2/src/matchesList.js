@@ -2,11 +2,11 @@ import { userData } from './userData'
 function checkGenres(arr1, arr2, priority) {
     for (let i = 0; i < arr1.length; i++) {
         if (arr2.includes(arr1[i])) {
-            console.log("genres id arr1: ", arr1[i]);
+            //console.log("genres id arr1: ", arr1[i]);
             priority++;
         }
     }
-    console.log("checkGenres priority: ", priority)
+    //console.log("checkGenres priority: ", priority)
     return priority;
 }
 export const matchList = async (currentUser) => {
@@ -32,7 +32,7 @@ export const matchList = async (currentUser) => {
     })
     const priorityList = new Map();
     usersData.forEach((user) => {
-        priorityList.set(user.username, { priority: 0 })
+        priorityList.set(user.username, { priority: 0, movieList: user.movieList, uid:user.uid})
     })
     for (const [key, value] of usersMovieList.entries()) {
         value.movieList.forEach(usersMovie => {
@@ -64,5 +64,6 @@ export const matchList = async (currentUser) => {
     //console.log("curMovieList", curUserMovieList)
     //console.log("usersData", usersData)
     //console.log("usersMovieList: ", usersMovieList)
+    console.log("sorted aray: ",sortedArray);
     return sortedArray;
 };
