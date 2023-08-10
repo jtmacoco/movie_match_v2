@@ -1,4 +1,3 @@
-import React from 'react'
 import { userData } from './userData'
 function checkGenres(arr1, arr2, priority) {
     for (let i = 0; i < arr1.length; i++) {
@@ -27,7 +26,7 @@ export const matchList = async (currentUser) => {
     const curUserMovieList = curUserData.map((curData) => {
         return curData.movieList;
     })
-    const usersMovieList = new Map
+    const usersMovieList = new Map()
     usersData.forEach(user => {
         usersMovieList.set(user.username, { movieList: user.movieList })
     })
@@ -40,30 +39,30 @@ export const matchList = async (currentUser) => {
             curUserMovieList[0].forEach(curMovie => {
                 let userPriority = priorityList.get(key);
                 if (curMovie.title === usersMovie.title) {
-                    console.log("user: ", key, " movie has been found: ", curMovie.title)
+                    //console.log("user: ", key, " movie has been found: ", curMovie.title)
                     userPriority.priority += 2;
                 }
                 userPriority.priority = checkGenres(curMovie.genre_ids, usersMovie.genre_ids, userPriority.priority)
-                console.log("users: ", key, " priority: ", userPriority.priority)
+         //       console.log("users: ", key, " priority: ", userPriority.priority)
             })
         })
     }
-    console.log("unsorted");
-    for(const [key, value] of priorityList.entries()){
-        console.log("key: ",key,"value: ",value)
-    }
+    //console.log("unsorted");
+    //for(const [key, value] of priorityList.entries()){
+    //    //console.log("key: ",key,"value: ",value)
+    //}
     const sortedArray = [...priorityList.entries()]
     sortedArray.sort((a,b) => b[1].priority-a[1].priority);
     const sortedMap = new Map(sortedArray)
-    console.log("sortedMap")
+    //console.log("sortedMap")
     for(const [key, value] of sortedMap.entries()){
-        console.log("key: ",key,"value: ",value)
+        //console.log("key: ",key,"value: ",value)
     }
-    console.log("sorted array: ", sortedArray);
+    //console.log("sorted array: ", sortedArray);
 
     //console.log("priorityList: ",priorityList)
     //console.log("curMovieList", curUserMovieList)
     //console.log("usersData", usersData)
-    console.log("usersMovieList: ", usersMovieList)
+    //console.log("usersMovieList: ", usersMovieList)
     return sortedArray;
 };
