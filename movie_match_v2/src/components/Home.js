@@ -53,7 +53,7 @@ export default function Home() {
       ))}
       <div>
         {matches.map(userData=>(
-          <h1>{userData.username}</h1>
+          <h1>{userData[1].priority}</h1>
         ))}
       </div>
       <Navbar />
