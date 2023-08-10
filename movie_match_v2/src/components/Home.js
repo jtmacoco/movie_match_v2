@@ -8,7 +8,7 @@ import Navbar from "./Navbar";
 import { userData } from '../userData'
 import { matchList } from "../matchesList";
 import { BsFillInfoCircleFill } from "react-icons/bs";
-import { TECollapse, TERipple } from "tw-elements-react";
+import { TERipple } from "tw-elements-react";
 export default function Home() {
   const { theme, toggleTheme } = useTheme();
   const { Icon, toggleIcon } = useIcon();
@@ -83,7 +83,8 @@ export default function Home() {
           </button>
         </div>
       </div>
-      <div className="absolute gap-y-4 flex items-center flex-col top-40  ">
+      <div className="absolute top-40">
+      <div className="relative gap-y-4 flex items-center flex-col  ">
         {matches.map(userData => (
           <>
           <motion.div whileHover={{ scale: 1.2 }}>
@@ -121,6 +122,7 @@ export default function Home() {
             </AnimatePresence>
           </>
         ))}
+      </div>
       </div>
       <Navbar />
     </div>
