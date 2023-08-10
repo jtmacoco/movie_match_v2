@@ -4,10 +4,13 @@ import "../global.css";
 import { useTheme } from "../context/ThemeContext";
 import { useIcon } from "../context/IconContext";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import Navbar from "./Navbar";
 export default function Settings() {
     const { theme, toggleTheme } = useTheme();
     const { Icon, toggleIcon } = useIcon();
+    const {logout} = useAuth();
+    
     useEffect(() => {
         if (theme === "dark") {
             document.documentElement.classList.add("dark");
@@ -38,7 +41,7 @@ export default function Settings() {
                 </Link>
                 <form>
                     <div className="pb-4">
-                        <button type="submit" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Logout</button>
+                        <button type="button" onClick={logout} class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Logout</button>
                     </div>
 
                 </form>

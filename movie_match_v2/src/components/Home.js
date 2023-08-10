@@ -6,18 +6,25 @@ import { useIcon } from "../context/IconContext";
 import { useAuth } from "../context/AuthContext";
 import Navbar from "./Navbar";
 import { userData } from '../userData'
+import { matchList } from "../matchesList";
 export default function Home() {
   const { theme, toggleTheme } = useTheme();
   const { Icon, toggleIcon } = useIcon();
   const { currentUser } = useAuth()
   const [data, setData] = useState([])
+  const [matches,setMatches] = useState([])
   const fetchData = async () => {
     const res = await userData()
     const filterData = res.filter(item => item.uid===currentUser.uid)
     setData(filterData)
   }
+  const fetchMovieList = async() =>{
+    const matches = await matchList(currentUser);
+    setMatches(matches)
+  }
   useEffect(() => {
     fetchData()
+    fetchMovieList()
   }, [])
 
   useEffect(() => {
@@ -44,6 +51,11 @@ export default function Home() {
        Welcome {user.username} 
        </h1>
       ))}
+      <div>
+        {matches.map(userData=>(
+          <h1>{userData.username}</h1>
+        ))}
+      </div>
       <Navbar />
     </div>
   )
