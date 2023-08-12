@@ -11,6 +11,7 @@ import { AiFillMinusCircle } from "react-icons/ai";
 import { auth, db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
+import ThemeToggle from "./ThemeToggle";
 export default function Movies() {
     const { theme, toggleTheme } = useTheme();
     const { Icon, toggleIcon } = useIcon();
@@ -90,16 +91,7 @@ export default function Movies() {
     return (
         <>
             <div className={`${theme === "dark" ? "bg-dark_back" : "bg-light_back"} h-screen flex justify-center items-center flex-col`}>
-                <button
-                    className={`overflow-hidden shadow-md shadow-slate-500 absolute top-2 right-12  ${theme === "dark" ? "bg-light_border" : "bg-dark_border"
-                        } rounded-full py-2 w-16`}
-                    onClick={() => {
-                        toggleTheme();
-                        toggleIcon();
-                    }}
-                >
-                    <motion.div animate={{ x: theme === "dark" ? 5 : 40 }}>{Icon}</motion.div>
-                </button>
+               <ThemeToggle/> 
                 <div className="flex flex-cols absolute top-20 left-20">
                     <div>
                         <input

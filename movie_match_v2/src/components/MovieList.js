@@ -10,6 +10,7 @@ import Navbar from './Navbar';
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { AiFillMinusCircle } from "react-icons/ai";
 import { collection, getDoc, doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import ThemeToggle from './ThemeToggle';
 export default function MovieList() {
     const [data, setData] = useState([])
     const { theme, toggleTheme } = useTheme();
@@ -254,17 +255,7 @@ export default function MovieList() {
       };
     return (
         <div className={`flex flex-col min-h-screen ${theme === "dark" ? "bg-dark_back" : "bg-light_back"} bg-cover `}>
-            <button
-                className={`overflow-hidden shadow-md shadow-slate-500 absolute top-2 right-12  ${theme === "dark" ? "bg-light_border" : "bg-dark_border"
-                    } rounded-full py-2 w-16`}
-                onClick={() => {
-                    toggleTheme();
-                    toggleIcon();
-                }}
-            >
-
-                <motion.div animate={{ x: theme === "dark" ? 5 : 40 }}>{Icon}</motion.div>
-            </button>
+          <ThemeToggle/> 
             <div className='flex justify-center items-center'>
                 <h1 className="absolute top-5 text-center text-5xl pb-14 font-movieMatch text-black dark:text-white">Your Movie List</h1>
             </div>

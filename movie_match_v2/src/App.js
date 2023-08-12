@@ -16,6 +16,7 @@ import { IconProvider } from './context/IconContext';
 import { AuthProvider } from './context/AuthContext';
 import UpdatePassword from './components/UpdatePassword';
 import MovieList from './components/MovieList';
+import ChatPage from './components/ChatPage';
 
 function App() {
   return (
@@ -29,6 +30,12 @@ function App() {
                 <Home />
               </PrivateRoute>
             } />
+            <Route path="chat/:usernames" element={
+              <PrivateRoute>
+                <ChatPage/>
+              </PrivateRoute>
+            }
+             />
             <Route path="/UpdateProfile" element={
               <PrivateRoute>
                 <UpdateProfile />
@@ -59,7 +66,6 @@ function App() {
                 <Settings/>
               </PrivateRoute>
             } />
-
             <Route path="/ForgotPassword" element={<ForgotPassword />} />
             <Route path="/register" element={<Register />} />
           </Routes>

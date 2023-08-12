@@ -5,6 +5,7 @@ import { useTheme } from "../context/ThemeContext";
 import { useIcon } from "../context/IconContext";
 import { useAuth } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import ThemeToggle from "./ThemeToggle";
 function Login() {
     const { theme, toggleTheme } = useTheme();
     const { Icon, toggleIcon } = useIcon();
@@ -42,16 +43,7 @@ function Login() {
 
     return (
         <div className={`${theme === "dark" ? "bg-dark_back" : "bg-light_back"} h-screen flex justify-center items-center flex-col`}>
-            <button
-                className={`overflow-hidden shadow-md shadow-slate-500 absolute top-2 right-12  ${theme === "dark" ? "bg-light_border" : "bg-dark_border"
-                    } rounded-full py-2 w-16`}
-                onClick={() => {
-                    toggleTheme();
-                    toggleIcon();
-                }}
-            >
-                <motion.div animate={{ x: theme === "dark" ? 5 : 40 }}>{Icon}</motion.div>
-            </button>
+          <ThemeToggle/> 
             {error && <alert>{error}</alert>}
             <div className="rounded-md bg-light_border border border-neutral-500 p-20 dark:bg-dark_border">
                 <h1 className="text-center text-5xl pb-14 font-movieMatch text-black dark:text-white">Movie Match</h1>
