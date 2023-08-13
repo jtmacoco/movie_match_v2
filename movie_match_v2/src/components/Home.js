@@ -38,25 +38,22 @@ export default function Home() {
   const fetchMatchList = async () => {
     const messages = await messageData();
     const matches = await matchList(currentUser);
-    console.log("curUser id: ", currentUser.uid)
-    matches.forEach(m =>{
-      console.log("uids: ",m[1].uid);
+    let arrFilter = []
+    messages.forEach(m =>{
+      if(currentUser.uid === m.user1_Id)
+        arrFilter.push(m.user2_Id)
+      else if(currentUser.uid === m.user2_Id)
+        arrFilter.push(m.user1_Id);
     })
-
     const filterMatches = matches.filter(match => {
-      let user = null;
-      messages.forEach(m =>{
-        if(m.user2_Id === currentUser.uid)
+      const arrFilterMatch =  arrFilter.some(f =>{
+        if(f === match[1].uid)
         {
-          user = m.user1_Id
+          console.log("yes matched: ", f)
         }
-        else if(m.user1_Id === currentUser.uid)
-        {
-          user = m.user2_Id
-        }
+        return f === match[1].uid;
       })
-      console.log("user: ",user)
-      return match[1].uid !== user;
+      return  !arrFilterMatch;
     });
       
     setMatches(filterMatches)
