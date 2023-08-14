@@ -12,15 +12,15 @@ import { BsFillInfoCircleFill } from "react-icons/bs";
 import { TERipple } from "tw-elements-react";
 import { useNavigate } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
-import {  db } from "../firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { db } from "../firebase";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
 export default function Home() {
   const { theme, toggleTheme } = useTheme();
-  const { Icon, toggleIcon } = useIcon();
   const [data, setData] = useState([])
   const [matches, setMatches] = useState([])
   const [info, setInfo] = useState(false);
   const [collapseStates, setCollapseStates] = useState({});
+  const [message, setMessage] = useState(null)
   const { currentUser } = useAuth()
   const nav = useNavigate()
 
@@ -37,31 +37,42 @@ export default function Home() {
   }
   const fetchMatchList = async () => {
     const messages = await messageData();
+    setMessage(messages);
     const matches = await matchList(currentUser);
     let arrFilter = []
-    messages.forEach(m =>{
-      if(currentUser.uid === m.user1_Id)
+   
+    messages.forEach(m => {
+      if ((currentUser.uid === m.user1_Id) && m.textsExist)
         arrFilter.push(m.user2_Id)
-      else if(currentUser.uid === m.user2_Id)
+      else if ((currentUser.uid === m.user2_Id) && m.textsExist)
         arrFilter.push(m.user1_Id);
     })
     const filterMatches = matches.filter(match => {
-      const arrFilterMatch =  arrFilter.some(f =>{
-        if(f === match[1].uid)
-        {
-          console.log("yes matched: ", f)
-        }
+      const arrFilterMatch = arrFilter.some(f => {
         return f === match[1].uid;
       })
-      return  !arrFilterMatch;
+      return !arrFilterMatch;
     });
-      
+
     setMatches(filterMatches)
   }
   useEffect(() => {
     fetchData()
     fetchMatchList()
   }, [])
+  const checkDup = (userId) => {
+    console.log("userId: ", userId)
+    const dup = message.find(m =>{
+      return m.user1_Id === userId
+    })
+    if(dup)
+      return true;
+    else
+      return false
+  }
+  useEffect(() => {
+    console.log("message", message);
+  }, [message])
 
   useEffect(() => {
     if (theme === "dark") {
@@ -71,24 +82,35 @@ export default function Home() {
     }
   }, [theme]);
 
-  const handleChat = async (e, user,userId) => {
+  const handleChat = async (e, user, userId) => {
     e.preventDefault();
     let curUsername = '';
-    data.map(cur=>{
-      curUsername=cur.username
+    data.map(cur => {
+      curUsername = cur.username
     })
+
+    if (checkDup(userId)) {
+      console.log("dup is true")
+      nav(`/chat/${userId}-${currentUser.uid}`)
+      return;
+    }
+    else{
+      console.log("dup not true")
+    }
     try {
       const docRef = await addDoc(collection(db, "messages"), {
         user1: user,
         user1_Id: userId,
         user2: curUsername,
-        user2_Id:currentUser.uid,
+        user2_Id: currentUser.uid,
       });
-      const subcollectionRef = collection(docRef, "texts");
-      const subDoc = addDoc(subcollectionRef,{
-        texts:'',
-      })
-        nav(`/chat/${user}-${curUsername}`)
+      //  const subcollectionRef = collection(docRef, "texts");
+      //  const subDoc = addDoc(subcollectionRef,{
+      //    texts:'',
+      //    time: Timestamp.now(),
+      //    sender_uid: currentUser.uid,
+      //  })
+      nav(`/chat/${userId}-${currentUser.uid}`)
     } catch (e) {
       console.error("error adding document: ", e);
     }
@@ -133,7 +155,7 @@ export default function Home() {
                   <div className="w-96 ">
                     <div className="h-16 border border-neutral-500 dark:bg-dark_border bg-light_border rounded-md flex flex-row items-center">
                       <button id="users" onClick={() => toggleCollapse(userData[1].uid)} className="pl-2 font-bold dark:text-white">{userData[0]}</button>
-                      <button onClick={(e) => handleChat(e, userData[0],userData[1].uid)} id="chat" className="font-bold text-white absolute right-0 bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Chat</button>
+                      <button onClick={(e) => handleChat(e, userData[0], userData[1].uid)} id="chat" className="font-bold text-white absolute right-0 bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Chat</button>
                     </div>
                   </div>
                 </TERipple>
