@@ -38,9 +38,9 @@ export const matchList = async (currentUser) => {
         value.movieList.forEach(usersMovie => {
             curUserMovieList[0].forEach(curMovie => {
                 let userPriority = priorityList.get(key);
-                if (curMovie.title === usersMovie.title) {
-                    //console.log("user: ", key, " movie has been found: ", curMovie.title)
-                    userPriority.priority += 2;
+                if (curMovie.id=== usersMovie.id) {
+                    //console.log("user: ", key, " movie has been found: ", usersMovie.id)
+                    userPriority.priority += 50;
                 }
                 userPriority.priority = checkGenres(curMovie.genre_ids, usersMovie.genre_ids, userPriority.priority)
          //       console.log("users: ", key, " priority: ", userPriority.priority)

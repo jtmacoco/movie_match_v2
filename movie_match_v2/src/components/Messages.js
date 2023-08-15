@@ -49,9 +49,9 @@ export default function Messages() {
     })
     const filterMatches = matches.filter(match => {
       const arrFilterMatch = arrFilter.some(f => {
-        return f !== match[1].uid;
+        return f === match[1].uid;
       })
-      return !arrFilterMatch;
+      return arrFilterMatch;
     });
 
     setMatches(filterMatches)

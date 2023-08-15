@@ -116,11 +116,11 @@ export default function Movies() {
                 <form onSubmit={handleSubmit}>
                     <div className=" absolute right-20 top-20 bg-light_border border border-neutral-500 p-20 dark:bg-dark_border rounded-md">
                         <div className="pb-10">
-                            <input id="username" placeholder="Enter Username" value={username} onChange={(u) => setUsername(u.target.value)} className="text-black rounded-md p-2 pr-10 bg-slate-100" />
+                            <input id="username" placeholder="Enter Display Name" value={username} onChange={(u) => setUsername(u.target.value)} className="text-black rounded-md p-2 pr-10 bg-slate-100" />
                         </div>
                         <div className="pb-2">
-                            <h1 className="font-bold text-xl dark:text-white">Current Movie List</h1>
-                            {movieList.length === 0 ? <p className="dark:text-white">please add some movies to your list</p> : movieList.map((movieListItem) => (
+                            <h1 className="text-black font-bold text-xl dark:text-white">Current Movie List</h1>
+                            {movieList.length === 0 ? <p className="text-black dark:text-white">please add some movies to your list</p> : movieList.map((movieListItem) => (
                                 <div className="flex flex-cols items-center">
                                     <div className=" w-fit text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                                         {movieListItem.title}
@@ -173,9 +173,9 @@ export default function Movies() {
                                                         src={`https://image.tmdb.org/t/p/original${movieItem.poster_path}`}
                                                     />
                                                 </div>
-                                                <h1 className="font-bold">Release Date: {movieItem.release_date}</h1>
-                                                <h1 className="font-bold">Description</h1>
-                                                <div className="pb-2">{movieItem.overview}</div>
+                                                <h1 className="text-black dark:text-white font-bold">Release Date: {movieItem.release_date}</h1>
+                                                <h1 className="text-black dark:text-white font-bold">Description</h1>
+                                                <div className="text-black dark:text-white pb-2">{movieItem.overview}</div>
                                             </div>
                                         </motion.div>
                                     )}
