@@ -37,7 +37,9 @@ export default function Navbar() {
 </Link>
                             </li>
                             <li className='pb-8'>
+                                <Link to="/messages">
                                 Messages
+</Link>
                             </li>
                             <li className='pb-8'>
                                 <Link to="/settings">

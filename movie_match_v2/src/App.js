@@ -17,6 +17,7 @@ import { AuthProvider } from './context/AuthContext';
 import UpdatePassword from './components/UpdatePassword';
 import MovieList from './components/MovieList';
 import ChatPage from './components/ChatPage';
+import Messages from './components/Messages';
 
 function App() {
   return (
@@ -28,6 +29,11 @@ function App() {
             <Route path="/Home" element={
               <PrivateRoute>
                 <Home />
+              </PrivateRoute>
+            } />
+            <Route path="/Messages" element={
+              <PrivateRoute>
+                <Messages/>
               </PrivateRoute>
             } />
             <Route path="chat/:usernames" element={

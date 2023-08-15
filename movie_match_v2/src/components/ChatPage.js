@@ -43,6 +43,20 @@ const ChatPage = (userId) => {
     }
     const setMessages = async () => {
         const messagesData = await messageData();
+        if(messagesData.find(m =>(
+            m.user1_Id === user1_Id && m.user2_Id === curUser_Id
+        ))){
+            console.log("yes first if statment exists")
+        }
+        else if(messagesData.find(m =>(
+            m.user1_Id === user1_Id && m.user2_Id === curUser_Id
+        ))){
+            console.log("yes second if statment exists")
+        }
+        else{
+            console.log("something went wrong");
+        }
+
         const curMessage = messagesData.find(m => {
             return (m.user1_Id === user1_Id && m.user2_Id === curUser_Id) ||
                 (m.user2_Id === user1_Id && m.user1_Id === curUser_Id)
@@ -118,7 +132,7 @@ const ChatPage = (userId) => {
     return (
         <div className={`${theme === "dark" ? "bg-dark_back" : "bg-light_back"} h-screen flex justify-center items-center flex-col`}>
             <ThemeToggle />
-            <h1 className="absolute top-10 text-center text-5xl pb-14 font-movieMatch text-black dark:text-white">Chat with</h1>
+            <h1 className="absolute top-10 text-center text-5xl pb-14 font-movieMatch text-black dark:text-white">Chat with {recUsername}</h1>
             <section className='absolute top-24 w-screen bottom-24 overflow-y-auto'>
                 <div ref={messegeRef} className='flex flex-col  rounded-lg' >
                     {displayMessage.map((m, index) => (
