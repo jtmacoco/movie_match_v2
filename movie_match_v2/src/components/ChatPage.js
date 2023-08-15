@@ -16,7 +16,6 @@ const ChatPage = (userId) => {
     const { usernames } = useParams();
     const [user1_Id, curUser_Id] = usernames.split('-');
     const { theme, toggleTheme } = useTheme();
-    const { Icon, toggleIcon } = useIcon();
     const [message, setMessage] = useState([])
     const [docId, setDocId] = useState('')
     const [userInfo, setUserInfo] = useState([])
@@ -54,6 +53,9 @@ const ChatPage = (userId) => {
     useEffect(() => {
         setMessages();
     }, [message])
+    useEffect(()=>{
+        messegeRef.current.scrollIntoView({ behavior: "smooth"  })
+    },[displayMessage])
     useEffect(() => {
         if (theme === "dark") {
             document.documentElement.classList.add("dark");
@@ -63,6 +65,7 @@ const ChatPage = (userId) => {
     }, [theme]);
     const handleSubmit = (e) => {
         e.preventDefault()
+
         try {
             const docRef = doc(db, 'messages', docId);
             const subcollectionRef = collection(docRef, "texts");
@@ -72,54 +75,45 @@ const ChatPage = (userId) => {
                 time: Timestamp.now(),
             })
             setMessage("");
+            messegeRef.current.scrollIntoView({ behavior: "smooth"  })
             console.log("sucess")
         } catch (error) {
             console.log("error adding texts: ", error)
         }
     }
-    useEffect(() => {
-        // Scroll to the bottom of the messages when the component updates
-        console.log("useEffect triggered");
-        const element = messegeRef.current;
-        const scrollOptions = {
-            top: element.scrollHeight,
-            behavior: 'smooth', // This enables smooth scrolling
-        };
-    
-        element.scrollTo(scrollOptions);
-    }, [displayMessage]);
+
     function ChatMessage(props) {
         const { text, sender_Id } = props.message;
         const curSender = sender_Id === currentUser.uid;
 
-        // Determine the appropriate alignment class based on the sender
         const alignmentClass = curSender ? "self-end" : "self-start";
         const curS = curSender ? "relative right-0 " : "relative left-0";
         const start_end = curSender ? "chat-end" : "chat-start"
         return (
             <div className={`flex pb-2 ${alignmentClass}`}>
-            <div  className={` chat ${start_end} ${curS}   `}>
-                <div className={` chat-bubble  ${curSender ? "bg-blue-500" : "bg-gray-600"}`}>
-                    <p className=' pr-2 text-white text-md'> {text}</p>
+                <div className={` chat ${start_end} ${curS}   `}>
+                    <div className={` chat-bubble  ${curSender ? "bg-blue-500" : "bg-gray-600"}`}>
+                        <p className=' pr-2 text-white text-md'> {text}</p>
+                    </div>
                 </div>
             </div>
-</div>
         );
     }
-
+    
     return (
         <div className={`${theme === "dark" ? "bg-dark_back" : "bg-light_back"} h-screen flex justify-center items-center flex-col`}>
             <ThemeToggle />
             <h1 className="absolute top-10 text-center text-5xl pb-14 font-movieMatch text-black dark:text-white">Chat with</h1>
-            <section className='absolute top-10 w-screen bottom-24 overflow-y-auto'>
-                <div   ref={messegeRef} className='flex flex-col  rounded-lg' style={{ maxHeight: 'calc(100vh - 20vh)' }}>
+            <section className='absolute top-24 w-screen bottom-24 overflow-y-auto'>
+                <div ref={messegeRef} className='flex flex-col  rounded-lg' >
                     {displayMessage.map((m, index) => (
-                            <ChatMessage key={index} message={m} />
+                        <ChatMessage key={index} message={m} />
                     ))}
                 </div>
-            
+                <span ref={messegeRef}></span>
             </section>
-           
+
+
             <div className='absolute bottom-0'>
                 <form onSubmit={handleSubmit} id="textForm" >
                     <textarea

@@ -48,10 +48,10 @@ function Login() {
             <div className="rounded-md bg-light_border border border-neutral-500 p-20 dark:bg-dark_border">
                 <h1 className="text-center text-5xl pb-14 font-movieMatch text-black dark:text-white">Movie Match</h1>
                 <form onSubmit={handleSubmit}>
-                    <div className="pb-10">
+                    <div className="pb-10 text-black">
                         <input id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="rounded-md p-2 pr-10 bg-slate-100" />
                     </div>
-                    <div className="pb-6">
+                    <div className="pb-6 text-black">
                         <input id="password" value={password} onChange={(p) => setPassword(p.target.value)} type="password" placeholder="Password" className="rounded-md p-2 pr-10 bg-slate-100" />
                     </div>
                     <div className="pb-4">
