@@ -56,10 +56,10 @@ export default function UpdatePassword() {
                 <h1 className="text-center text-5xl pb-14 text-black dark:text-white">Change Password</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="pb-10">
-                        <input type="password" id="Password" placeholder="New Password" onChange={(p) => setPassword(p.target.value)} value={password} className="rounded-md p-2  bg-slate-100 w-52" />
+                        <input type="password" id="Password" placeholder="New Password" onChange={(p) => setPassword(p.target.value)} value={password} className="text-black rounded-md p-2  bg-slate-100 w-52" />
                     </div>
                     <div className="pb-6">
-                        <input type="password" id="confirm_password" placeholder="Confirm Password" onChange={(p) => setConfirmPassword(p.target.value)} value={confirmPassword} className="rounded-md p-2  bg-slate-100 w-52" />
+                        <input type="password" id="confirm_password" placeholder="Confirm Password" onChange={(p) => setConfirmPassword(p.target.value)} value={confirmPassword} className="text-black rounded-md p-2  bg-slate-100 w-52" />
                     </div>
                     <div className="pb-4">
                         <button disabled={loading} type="submit" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Update</button>

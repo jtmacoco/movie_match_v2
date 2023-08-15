@@ -21,12 +21,14 @@ const ChatPage = (userId) => {
     const [userInfo, setUserInfo] = useState([])
     const { currentUser } = useAuth()
     const [curMess, setCurMess] = useState({})
+    const [curUsername, setCurUsername] = useState('')
+    const [recUsername, setRecUsername ] = useState('')
     const [displayMessage, setDisplayMessage] = useState([])
     const messegeRef = useRef();
     const fetchMessages = async (docId) => {
         try {
             const messagesRef = collection(db, "messages", docId, "texts")
-            const q = query(messagesRef, orderBy('time','desc'),limit(20));
+            const q = query(messagesRef, orderBy('time', 'desc'), limit(50));
             const querySnapshot = await getDocs(q);
             const messages = []
             querySnapshot.forEach((doc) => {
@@ -46,6 +48,15 @@ const ChatPage = (userId) => {
                 (m.user2_Id === user1_Id && m.user1_Id === curUser_Id)
         })
         if (curMessage) {
+            if(curMessage.user1_Id === curUser_Id)
+            {
+                setCurUsername(curMessage.user1);
+                setRecUsername(curMessage.user2);
+            }
+            else{
+                setCurUsername(curMessage.user2);
+                setRecUsername(curMessage.user1);
+            }
             setCurMess(curMessage);
             setDocId(curMessage.id)
             fetchMessages(curMessage.id);
@@ -54,9 +65,9 @@ const ChatPage = (userId) => {
     useEffect(() => {
         setMessages();
     }, [message])
-    useEffect(()=>{
-        messegeRef.current.scrollIntoView({ behavior: "smooth"  })
-    },[displayMessage])
+    useEffect(() => {
+        messegeRef.current.scrollIntoView({ behavior: "smooth" })
+    }, [displayMessage])
     useEffect(() => {
         if (theme === "dark") {
             document.documentElement.classList.add("dark");
@@ -76,7 +87,7 @@ const ChatPage = (userId) => {
                 time: Timestamp.now(),
             })
             setMessage("");
-            messegeRef.current.scrollIntoView({ behavior: "smooth"  })
+            messegeRef.current.scrollIntoView({ behavior: "smooth" })
             console.log("sucess")
         } catch (error) {
             console.log("error adding texts: ", error)
@@ -84,7 +95,7 @@ const ChatPage = (userId) => {
     }
 
     function ChatMessage(props) {
-        const { text, sender_Id } = props.message;
+        const { text, sender_Id} = props.message;
         const curSender = sender_Id === currentUser.uid;
 
         const alignmentClass = curSender ? "self-end" : "self-start";
@@ -93,14 +104,17 @@ const ChatPage = (userId) => {
         return (
             <div className={`flex pb-2 ${alignmentClass}`}>
                 <div className={` chat ${start_end} ${curS}   `}>
+                    <div className="chat-header">
+                        {curSender ? curUsername : recUsername}
+                    </div>
                     <div className={` chat-bubble  ${curSender ? "bg-blue-500" : "bg-gray-600"}`}>
-                        <p className=' pr-2 text-white text-md'> {text}</p>
+                        <p className='text-white text-md'> {text}</p>
                     </div>
                 </div>
             </div>
         );
     }
-    
+
     return (
         <div className={`${theme === "dark" ? "bg-dark_back" : "bg-light_back"} h-screen flex justify-center items-center flex-col`}>
             <ThemeToggle />

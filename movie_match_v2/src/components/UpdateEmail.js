@@ -55,7 +55,7 @@ export default function UpdateEmail() {
                 <h1 className="text-center text-5xl pb-14 text-black dark:text-white">Change Email</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="pb-10">
-                        <input id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="New Email" className="rounded-md p-2 pr-10 bg-slate-100" />
+                        <input id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="New Email" className="text-black rounded-md p-2 pr-10 bg-slate-100" />
                     </div>
                     <div className="pb-4">
                         <button disabled={loading} type="submit" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Update</button>

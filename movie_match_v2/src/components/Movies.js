@@ -100,7 +100,7 @@ export default function Movies() {
                             value={movie}
                             onChange={(e) => setMovie(e.target.value)}
                             onKeyUp={handleKeyUp}
-                            className="bg-light_border rounded-md p-2 w-80"
+                            className="text-black bg-light_border rounded-md p-2 w-80"
                         />
                     </div>
                     <div>
@@ -116,7 +116,7 @@ export default function Movies() {
                 <form onSubmit={handleSubmit}>
                     <div className=" absolute right-20 top-20 bg-light_border border border-neutral-500 p-20 dark:bg-dark_border rounded-md">
                         <div className="pb-10">
-                            <input id="username" placeholder="Enter Username" value={username} onChange={(u) => setUsername(u.target.value)} className="rounded-md p-2 pr-10 bg-slate-100" />
+                            <input id="username" placeholder="Enter Username" value={username} onChange={(u) => setUsername(u.target.value)} className="text-black rounded-md p-2 pr-10 bg-slate-100" />
                         </div>
                         <div className="pb-2">
                             <h1 className="font-bold text-xl dark:text-white">Current Movie List</h1>

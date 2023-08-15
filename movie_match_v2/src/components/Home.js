@@ -133,7 +133,7 @@ export default function Home() {
         </div>
       </div>
       {data.map(user => (
-        <h1 className="dark:text-white absolute top-0 left-20 font-bold">
+        <h1 className="text-black dark:text-white absolute top-0 left-20 font-bold">
           Welcome {user.username}
 
         </h1>
@@ -154,7 +154,7 @@ export default function Home() {
                 <TERipple>
                   <div className="w-96 ">
                     <div className="h-16 border border-neutral-500 dark:bg-dark_border bg-light_border rounded-md flex flex-row items-center">
-                      <button id="users" onClick={() => toggleCollapse(userData[1].uid)} className="pl-2 font-bold dark:text-white">{userData[0]}</button>
+                      <button id="users" onClick={() => toggleCollapse(userData[1].uid)} className="text-black pl-2 font-bold dark:text-white">{userData[0]}</button>
                       <button onClick={(e) => handleChat(e, userData[0], userData[1].uid)} id="chat" className="font-bold text-white absolute right-0 bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Chat</button>
                     </div>
                   </div>

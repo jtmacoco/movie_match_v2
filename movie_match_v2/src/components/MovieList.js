@@ -308,7 +308,7 @@ export default function MovieList() {
                             value={movie}
                             onChange={(e) => setMovie(e.target.value)}
                             onKeyUp={handleKeyUp}
-                            className="bg-light_border rounded-md p-2 w-80"
+                            className="text-black bg-light_border rounded-md p-2 w-80"
                         />
                         <button
                             onClick={() => get_movie(movie)}
