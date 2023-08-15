@@ -10,7 +10,7 @@ import { useAuth } from '../context/AuthContext';
 import ThemeToggle from './ThemeToggle';
 import Navbar from './Navbar';
 import { Timestamp, limit, orderBy } from '@firebase/firestore';
-import { getDocs, query, addDoc, doc, collection } from '@firebase/firestore';
+import { startAfter, getDocs, query, addDoc, doc, collection } from '@firebase/firestore';
 //vfgu3kCmbeTqoQ3wq0XhilKFIfd2-AkA50WnKa0SCRSuATE3I52gsZxE3
 const ChatPage = (userId) => {
     const { usernames } = useParams();
@@ -26,14 +26,15 @@ const ChatPage = (userId) => {
     const fetchMessages = async (docId) => {
         try {
             const messagesRef = collection(db, "messages", docId, "texts")
-            const q = query(messagesRef, orderBy('time'));
+            const q = query(messagesRef, orderBy('time','desc'),limit(20));
             const querySnapshot = await getDocs(q);
             const messages = []
             querySnapshot.forEach((doc) => {
                 messages.push(doc.data())
                 //console.log("Message ID: ", doc.id, "Message Data: ", doc.data().text);
             });
-            setDisplayMessage(messages)
+            const reverseMessages = [...messages].reverse();
+            setDisplayMessage(reverseMessages)
         } catch (error) {
             console.log("error: ", error);
         }
