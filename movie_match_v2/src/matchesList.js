@@ -64,6 +64,6 @@ export const matchList = async (currentUser) => {
     //console.log("curMovieList", curUserMovieList)
     //console.log("usersData", usersData)
     //console.log("usersMovieList: ", usersMovieList)
-    console.log("sorted aray: ",sortedArray);
+    //console.log("sorted aray: ",sortedArray);
     return sortedArray;
 };
