@@ -22,8 +22,53 @@ export default function Messages() {
   const [collapseStates, setCollapseStates] = useState({});
   const [message, setMessage] = useState(null)
   const { currentUser } = useAuth()
+  const [pages, setPages] = useState([])
+  const [mp,setMP] = useState([])
   const nav = useNavigate()
 
+  const pageAmount = (matches) => {
+    let n = 7;
+    if(window.innerHeight > 1000){
+      n = 10;
+    }
+    let size = matches.length;
+    let inc = -1;
+    if ((size % n !== 0)) {
+      inc = 1;
+    }
+    else {
+      inc = 0;
+    }
+    let itemsPerPage = size / n + inc
+    const pageArr = Array.from({ length: itemsPerPage }, (_, i) => i + 1);
+    setPages(pageArr);
+    matchesPerPage(1,matches,n);
+  }
+  useEffect(() => {
+    const handleResize = () => {
+      pageAmount(matches);
+    };
+  
+    window.addEventListener('resize', handleResize);
+  
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []); 
+  const matchesPerPage = (page,matches,n) => {
+    let startIndex = (page- 1) * n;
+    let endIndex = (page* n);
+    if(!matches[endIndex]){
+      endIndex = matches.length;
+    }
+    let limit = []
+    try{
+    limit = matches.slice(startIndex, endIndex);
+    }catch(error){
+      console.error("error: ",error);
+    }
+    setMP(limit);
+  }
   const toggleCollapse = (userId) => {
     setCollapseStates((prevCollapseStates) => ({
       ...prevCollapseStates,
@@ -55,6 +100,7 @@ export default function Messages() {
     });
 
     setMatches(filterMatches)
+    pageAmount(filterMatches)
   }
   useEffect(() => {
     fetchData()
@@ -187,8 +233,27 @@ export default function Messages() {
               </AnimatePresence>
             </>
           ))}
-        </div>
+                </div>
+
       </div>
+  <ul className=" absolute bottom-10 flex flex-rows gap-x-4 items-center justify-center">
+            {pages.map((page, index) => (
+              <li className="text-black dark:text-white"
+              key={index}>
+                <button onClick={()=>
+                {
+                  let n = 7
+                  if(window.innerHeight > 1000)
+                  {
+                    n = 10
+                  }
+                  matchesPerPage(page,matches,n)}}>
+                
+                    {page} </button>
+            </li>
+            ))}
+          </ul>
+
       <Navbar />
     </div>
   )

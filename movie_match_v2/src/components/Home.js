@@ -24,10 +24,12 @@ export default function Home() {
   const { currentUser } = useAuth()
   const [pages, setPages] = useState([])
   const [mp,setMP] = useState([])
-  const [startPage, setStartPage] = useState(1)
   const nav = useNavigate()
   const pageAmount = (matches) => {
     let n = 7;
+    if(window.innerHeight > 1000){
+      n = 10;
+    }
     let size = matches.length;
     let inc = -1;
     if ((size % n !== 0)) {
@@ -40,26 +42,34 @@ export default function Home() {
     const pageArr = Array.from({ length: itemsPerPage }, (_, i) => i + 1);
     //console.log("pageArr: ", pageArr)
     setPages(pageArr);
-    matchesPerPage(1,matches);
+    matchesPerPage(1,matches,n);
   }
-  const matchesPerPage = (page,matches) => {
+  useEffect(() => {
+    const handleResize = () => {
+      pageAmount(matches);
+    };
+  
+    window.addEventListener('resize', handleResize);
+  
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []); 
+  
+  const matchesPerPage = (page,matches,n) => {
     //console.log("input matches: ",matches)
     console.log("matches length: ",matches.length)
-    let startIndex = (page- 1) * 7;
-    let endIndex = (page* 7);
+    let startIndex = (page- 1) * n;
+    let endIndex = (page* n);
     if(!matches[endIndex]){
       endIndex = matches.length;
-      console.log("end index in if: ",endIndex)
     }
-    console.log("startInex: ",startIndex)
-    console.log("endIndex: ",endIndex)
     let limit = []
     try{
     limit = matches.slice(startIndex, endIndex);
     }catch(error){
       console.error("error: ",error);
     }
-    console.log("limit: ",limit);
     setMP(limit);
   }
   const toggleCollapse = (userId) => {
@@ -93,7 +103,6 @@ export default function Home() {
     });
 
     setMatches(filterMatches)
-    console.log("filterMatches: ",filterMatches)
     pageAmount(filterMatches);
   }
   useEffect(() => {
@@ -186,7 +195,7 @@ export default function Home() {
           </button>
         </div>
       </div>
-      <div className="overflow-y-hidden max-h-[80vh] w-fit px-12 pt-2 absolute top-40">
+      <div className="w-fit px-12 pt-2 absolute top-40">
         <div className=" relative gap-y-4 flex items-center flex-col  ">
           {mp.map(userData => (
             <>
@@ -226,16 +235,26 @@ export default function Home() {
               </AnimatePresence>
             </>
           ))}
-          <ul className="flex flex-rows gap-x-4">
+          
+        </div>
+      </div>
+      <ul className="absolute bottom-10 items-center justify-center flex flex-rows gap-x-4">
             {pages.map((page, index) => (
               <li className="text-black dark:text-white"
                 key={index}>
-                  <button onClick={()=>matchesPerPage(page,matches)}>{page} </button>
+                  <button onClick={()=>
+                  {
+                    let n = 7
+                    if(window.innerHeight > 1000)
+                    {
+                      n = 10
+                    }
+                    matchesPerPage(page,matches,n)}}>
+                  
+                      {page} </button>
               </li>
             ))}
           </ul>
-        </div>
-      </div>
       <Navbar />
     </div>
   )
