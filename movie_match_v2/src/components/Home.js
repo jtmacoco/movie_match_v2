@@ -176,7 +176,7 @@ export default function Home() {
           </div>
           <div className="pt-6">
             Users who are displayed at the top of the list have a similar movie taste to your own. Those who are further down the list will have less of a similar movie interest.
-            <button onClick={() => setInfo(false)} className="pt-2 absolute right-3 ">close</button>
+            <button onClick={() => setInfo(false)} className=" absolute bottom-0 right-3 hover:bg-blue-600 ">close</button>
           </div>
 
         </div>
@@ -187,7 +187,7 @@ export default function Home() {
 
         </h1>
       ))}
-      <div className="absolute top-10 flex flex-cols">
+      <div className=" absolute top-10 flex flex-cols">
         <h1 className="text-center text-5xl pb-14 font-movieMatch text-black dark:text-white">New Users to Chat With</h1>
         <div className="pl-2">
           <button onClick={() => setInfo(true)}>
@@ -195,20 +195,23 @@ export default function Home() {
           </button>
         </div>
       </div>
-      <div className="w-fit px-12 pt-2 absolute top-40">
-        <div className=" relative gap-y-4 flex items-center flex-col  ">
+      <div className=" w-fit px-12 pt-2 absolute top-30">
+        <div className="  overflow-y-auto max-h-[75vh] py-6 px-14 relative gap-y-4 flex items-center flex-col  ">
           {mp.map(userData => (
             <>
+            <div key={userData[1].uid}>
               <motion.div whileHover={{ scale: 1.2 }}>
                 <TERipple>
                   <div className="w-96 ">
-                    <div className="h-16 border border-neutral-500 dark:bg-dark_border bg-light_border rounded-md flex flex-row items-center">
+                    <div className=" h-16 border border-neutral-500 dark:bg-dark_border bg-light_border rounded-md flex flex-row items-center">
                       <button id="users" onClick={() => toggleCollapse(userData[1].uid)} className="text-black pl-2 font-bold dark:text-white">{userData[0]}</button>
                       <button onClick={(e) => handleChat(e, userData[0], userData[1].uid)} id="chat" className="font-bold text-white absolute right-0 bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Chat</button>
                     </div>
                   </div>
                 </TERipple>
               </motion.div>
+
+</div>
               <AnimatePresence>
                 {collapseStates[userData[1].uid] && (
                   <motion.div
@@ -217,7 +220,7 @@ export default function Home() {
                     exit={{ height: 0, opacity: 0, overflow: "hidden" }}
                     transition={{ duration: 0.5 }}
                   >
-                    <div className="px-20 flex flex-cols gap-4">
+                    <div className="px-20  flex flex-cols gap-4">
                       <div className="flex overflow-x-auto gap-4">
                         {userData[1].movieList.map(movies => (
                           <div key={movies.id} className="flex-shrink-0">

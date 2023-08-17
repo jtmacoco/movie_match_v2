@@ -34,6 +34,6 @@ export const messagePageData = async (curUserId) => {
         else
             filterArr.push(item.user1Id)
     })
-    console.log("fiterArr: ", filterArr)
+    //console.log("fiterArr: ", filterArr)
     return filterArr;
 }

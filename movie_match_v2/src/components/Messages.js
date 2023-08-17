@@ -99,7 +99,7 @@ export default function Messages() {
     }
     )
     const sortedArray = [...usersData.entries()]
-    console.log("sortedArr: ", sortedArray)
+    //console.log("sortedArr: ", sortedArray)
     setMatches(sortedArray)
     pageAmount(sortedArray)
   }
@@ -167,24 +167,18 @@ export default function Messages() {
   return (
     <div className={`${theme === "dark" ? "bg-dark_back" : "bg-light_back"} h-screen flex justify-center items-center flex-col`}>
       <ThemeToggle />
-      <div className={`${info ? "visible" : "hidden"} absolute z-40 top-2`}>
-        <div class="w-96 rounded-md flex items-center bg-blue-500 text-white text-sm font-bold px-4 py-3" role="alert">
+      <div className={`${info ? "visible" : "hidden"} absolute z-40 top-2 `}>
+        <div class="w-96 rounded-md flex items-center bg-blue-500 text-white text-sm font-bold px-4 py-4" role="alert">
           <div className="absolute top-2 pr-2">
             <BsFillInfoCircleFill size={20} />
           </div>
-          <div className="pt-6">
-           Displayed below are users who you have already started a chat with. 
-            <button onClick={() => setInfo(false)} className="pt-2 absolute right-3 ">close</button>
+          <div className="pt-6 pb-2">
+           Displayed below are users who you have already started a chat with. Users who have recently messaged you will be displayed further up the list. 
+            <button onClick={() => setInfo(false)} className=" absolute bottom-0 right-3 hover:bg-blue-600 ">close</button>
           </div>
 
         </div>
       </div>
-      {data.map(user => (
-        <h1 className="text-black dark:text-white absolute top-0 left-20 font-bold">
-          Welcome {user.username}
-
-        </h1>
-      ))}
       <div className="absolute top-10 flex flex-cols">
         <h1 className="text-center text-5xl pb-14 font-movieMatch text-black dark:text-white">Messages</h1>
         <div className="pl-2">
