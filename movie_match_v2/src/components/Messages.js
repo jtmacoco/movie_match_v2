@@ -12,6 +12,7 @@ import { BsFillInfoCircleFill } from "react-icons/bs";
 import { TERipple } from "tw-elements-react";
 import { useNavigate } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
+import { messagePageData } from "../messagePageData";
 import { db } from "../firebase";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 export default function Messages() {
@@ -78,36 +79,35 @@ export default function Messages() {
   const fetchData = async () => {
     const res = await userData()
     const filterData = res.filter(item => item.uid === currentUser.uid)
+    const otherUsers = res.filter(item => item.uid !== currentUser.uid)
+    fetchMessageList(otherUsers)
     setData(filterData)
   }
-  const fetchMatchList = async () => {
+  const fetchMessageList = async (md) => {
     const messages = await messageData();
+    const mpd = await messagePageData(currentUser.uid);
     setMessage(messages);
     const matches = await matchList(currentUser);
-    let arrFilter = []
-   
-    messages.forEach(m => {
-      if ((currentUser.uid === m.user1_Id) && m.textsExist)
-        arrFilter.push(m.user2_Id)
-      else if ((currentUser.uid === m.user2_Id) && m.textsExist)
-        arrFilter.push(m.user1_Id);
-    })
-    const filterMatches = matches.filter(match => {
-      const arrFilterMatch = arrFilter.some(f => {
-        return f === match[1].uid;
-      })
-      return arrFilterMatch;
-    });
-
-    setMatches(filterMatches)
-    pageAmount(filterMatches)
+    let arrFilter = mpd; 
+    const usersData = new Map()
+    arrFilter.forEach(item =>{
+      const temp = md.find(id => id.uid === item)
+      if(temp)
+      {
+        usersData.set(temp.username, { movieList: temp.movieList, uid:temp.uid})
+      }
+    }
+    )
+    const sortedArray = [...usersData.entries()]
+    console.log("sortedArr: ", sortedArray)
+    setMatches(sortedArray)
+    pageAmount(sortedArray)
   }
   useEffect(() => {
     fetchData()
-    fetchMatchList()
   }, [])
   const checkDup = (userId) => {
-    console.log("userId: ", userId)
+    //console.log("userId: ", userId)
     const dup = message.find(m =>{
       return (m.user1_Id === userId)||
       (m.user2_Id === userId)
@@ -117,9 +117,9 @@ export default function Messages() {
     else
       return false
   }
-  useEffect(() => {
-    console.log("message", message);
-  }, [message])
+  //useEffect(() => {
+  //  console.log("message", message);
+  //}, [message])
 
   useEffect(() => {
     if (theme === "dark") {
@@ -137,12 +137,12 @@ export default function Messages() {
     })
 
     if (checkDup(userId)) {
-      console.log("dup is true")
+      //console.log("dup is true")
       nav(`/chat/${userId}-${currentUser.uid}`)
       return;
     }
     else{
-      console.log("dup not true")
+      //console.log("dup not true")
     }
     try {
       const docRef = await addDoc(collection(db, "messages"), {
