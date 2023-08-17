@@ -187,10 +187,11 @@ export default function Messages() {
           </button>
         </div>
       </div>
-      <div className="absolute top-40">
-        <div className="relative gap-y-4 flex items-center flex-col  ">
+      <div className="w-fit px-12 pt-2 absolute top-32">
+        <div className=" overflow-y-hidden max-h-[75vh] py-6 px-14 relative gap-y-4 flex items-center flex-col  ">
           {matches.map(userData => (
             <>
+            <div key={userData[1].uid}>
               <motion.div whileHover={{ scale: 1.2 }}>
                 <TERipple>
                   <div className="w-96 ">
@@ -201,6 +202,7 @@ export default function Messages() {
                   </div>
                 </TERipple>
               </motion.div>
+              </div>
               <AnimatePresence>
                 {collapseStates[userData[1].uid] && (
                   <motion.div

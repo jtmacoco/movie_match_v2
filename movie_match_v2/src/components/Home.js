@@ -195,7 +195,7 @@ export default function Home() {
           </button>
         </div>
       </div>
-      <div className=" w-fit px-12 pt-2 absolute top-30">
+      <div className=" w-fit px-12 pt-2 absolute top-32">
         <div className="  overflow-y-auto max-h-[75vh] py-6 px-14 relative gap-y-4 flex items-center flex-col  ">
           {mp.map(userData => (
             <>
