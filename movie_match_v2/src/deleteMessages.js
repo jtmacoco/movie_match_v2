@@ -7,7 +7,6 @@ export const deleteMessages = async(curUid, userUid) =>{
     console.log("hi")
     const messagesQuerySnapshot = await getDocs(collection(db,"messages"));
 //    const messagesCollectionRef = collection(db, "messages");
-    const data = []
     for (const messageDoc of messagesQuerySnapshot.docs) {
         const messageData = messageDoc.data();
         if((messageData.user1_Id === userUid && messageData.user2_Id === curUid)||

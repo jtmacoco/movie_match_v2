@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { auth } from "../firebase";
-import { EmailAuthProvider, createUserWithEmailAndPassword, reauthenticateWithCredential } from "firebase/auth";
+import { EmailAuthProvider, createUserWithEmailAndPassword, deleteUser, reauthenticateWithCredential } from "firebase/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { updateEmail } from "firebase/auth";
 import { updatePassword } from "firebase/auth";
 import { paste } from "@testing-library/user-event/dist/paste";
-
+import { deleteUserData } from "../deleteUserData";
 const AuthContext = React.createContext();
 
 export function useAuth() {
@@ -37,6 +37,18 @@ export function AuthProvider({ children }) {
   function updatePassword1(password){
     return updatePassword(auth.currentUser, password)
   }
+  function deleteCurUser (){
+    const user = auth.currentUser;
+    deleteUserData(user.uid);
+    return deleteUser(user)
+    .then(()=>{
+      console.log("user delete successfully")
+    })
+    .catch((error)=>{
+      console.error("error: ",error)
+    })
+
+  }
   useEffect(() => {
     const unsub = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
@@ -50,6 +62,7 @@ export function AuthProvider({ children }) {
     signup,
     login,
     logout,
+    deleteCurUser,
     resetPassword,
     updateEmail1,
     updatePassword1,
