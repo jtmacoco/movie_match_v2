@@ -27,6 +27,7 @@ export default function Messages() {
   const [pages, setPages] = useState([])
   const [removing, setRemoving] = useState(false)
   const [mp,setMP] = useState([])
+  const [noMessages, setNoMessages] = useState(false)
   const nav = useNavigate()
 
   const pageAmount = (matches) => {
@@ -102,6 +103,10 @@ export default function Messages() {
     )
     const sortedArray = [...usersData.entries()]
     //console.log("sortedArr: ", sortedArray)
+    if(sortedArray.length === 0)
+    {
+      setNoMessages(true);
+    }
     setMatches(sortedArray)
     pageAmount(sortedArray)
   }
@@ -160,13 +165,7 @@ export default function Messages() {
     }
 
   }
-  function noMessages () {
-    console.log("no messages")
-    if(mp.length === 0)
-    {
-      return (<h1 className="text-black font-bold dark:text-white text-2xl absolute top-40">You haven't messaged or recieved any messages yet</h1>)
-    }
-  }
+  
   function toggleRemove(userData, uid) {
     const button = !removing ?
       <button onClick={(e) => handleChat(e, userData[0], userData[1].uid)} id="chat" className="font-bold text-white absolute right-0 bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
@@ -196,7 +195,6 @@ export default function Messages() {
 
         </div>
       </div>
-      {noMessages()}
       <div className="absolute top-10 flex flex-cols">
         <h1 className="text-center text-5xl pb-14 font-movieMatch text-black dark:text-white">Messages</h1>
         <div className="pl-2">
@@ -205,6 +203,11 @@ export default function Messages() {
           </button>
         </div>
       </div>
+      {noMessages && (
+        <h1 className="text-black font-bold dark:text-white text-2xl absolute top-40">
+        You haven't messaged or received any messages yet
+      </h1>
+      )}
       <button onClick={() => setRemoving((prev) => !prev)} className="absolute right-20 top-24 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
         {removing ? <p>Finished</p> : <p>Remove Chats</p>}
       </button>
