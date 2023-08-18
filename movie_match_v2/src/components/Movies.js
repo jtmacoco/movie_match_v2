@@ -74,6 +74,18 @@ export default function Movies() {
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if(!username && movieList.length === 0)
+        {
+            setError("Please add a dsiplay name at atleast one movie to your movie list")
+        }
+        else if(!username){
+            setError("Please add a display name")
+        }
+        else if(movieList.length === 0)
+        {
+            setError("Please add at least one movie to your movie list")
+        }
+        else{
         try {
             const docRef = await addDoc(collection(db, "userData"), {
                 username: username,
@@ -85,6 +97,7 @@ export default function Movies() {
         } catch (e) {
             console.error("error adding document: ", e);
         }
+    }
     }
 
 
@@ -115,6 +128,12 @@ export default function Movies() {
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className=" absolute right-20 top-20 bg-light_border border border-neutral-500 p-20 dark:bg-dark_border rounded-md">
+                {error && 
+                    <div class="flex flex-cols absolute top-0 left-1/2 transform -translate-x-1/2 w-full pb-8 text-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
+                    <strong class="font-bold">{error}</strong>
+                    <button onClick={()=>setError('')} className="absolute bottom-0 right-2 ">close</button>
+                  </div>
+                    }
                         <div className="pb-10">
                             <input id="username" placeholder="Enter Display Name" value={username} onChange={(u) => setUsername(u.target.value)} className="text-black rounded-md p-2 pr-10 bg-slate-100" />
                         </div>
@@ -138,7 +157,7 @@ export default function Movies() {
                 </form>
                 <div scroll className="absolute w-1/2 left-20 top-40 overflow-y-auto max-h-[calc(100vh-16rem)]  ">
                     {loading && <p className="dark:text-white text-black">Loading...</p>}
-                    {error && <p>{error}</p>}
+                    
                     {movieData.map((movieItem) => (
                         <div key={movieItem.id}>
                             <div key={movieItem.id} className="flex flex-cols items-center ">
@@ -185,6 +204,8 @@ export default function Movies() {
                     ))}
                 </div>
             </div>
+     
+
         </>
     )
 }

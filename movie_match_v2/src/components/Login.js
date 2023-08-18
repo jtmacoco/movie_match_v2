@@ -44,7 +44,12 @@ function Login() {
     return (
         <div className={`${theme === "dark" ? "bg-dark_back" : "bg-light_back"} h-screen flex justify-center items-center flex-col`}>
           <ThemeToggle/> 
-            {error && <alert>{error}</alert>}
+            {error && 
+            <div class="text-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">Failed to Login</strong>
+            <span class="absolute top-0 bottom-0 right-0 px-4 py-3"/>
+          </div>
+            }
             <div className="rounded-md bg-light_border border border-neutral-500 p-20 dark:bg-dark_border">
                 <h1 className="text-center text-5xl pb-14 font-movieMatch text-black dark:text-white">Movie Match</h1>
                 <form onSubmit={handleSubmit}>

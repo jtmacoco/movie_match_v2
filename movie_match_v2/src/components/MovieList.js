@@ -28,10 +28,6 @@ export default function MovieList() {
     const [startX, setStartX] = useState(0);
     const [scrollX, setScrollX] = useState(0);
     const [isMouseDown, setIsMouseDown] = useState(false);
-    const testSlide = () =>{
-        var right = document.getElementById("image-container")
-        right.scrollLeft= right.scrollLeft+200;
-    }
     const toggleHover = (listId, movieId) => {
         setHoverState((prev) => ({
             ...prev,
