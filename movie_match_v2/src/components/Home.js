@@ -112,7 +112,9 @@ export default function Home() {
   const checkDup = (userId) => {
     console.log("userId: ", userId)
     const dup = message.find(m => {
-      return m.user1_Id === userId
+      return ((m.user1_Id === userId && m.user2_Id === currentUser.uid)||
+      (m.user2_Id === userId && m.user1_Id === currentUser.uid) 
+      )
     })
     if (dup)
       return true;
@@ -159,6 +161,7 @@ export default function Home() {
       //    time: Timestamp.now(),
       //    sender_uid: currentUser.uid,
       //  })
+      console.log("added doc successfully ")
       nav(`/chat/${userId}-${currentUser.uid}`)
     } catch (e) {
       console.error("error adding document: ", e);

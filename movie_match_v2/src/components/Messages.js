@@ -110,7 +110,7 @@ export default function Messages() {
   }, [])
   
   const checkDup = (userId) => {
-    //console.log("userId: ", userId)
+    console.log("userId: ", userId)
     const dup = message.find(m => {
       return (m.user1_Id === userId) ||
         (m.user2_Id === userId)
@@ -160,6 +160,13 @@ export default function Messages() {
     }
 
   }
+  function noMessages () {
+    console.log("no messages")
+    if(mp.length === 0)
+    {
+      return (<h1 className="text-black font-bold dark:text-white text-2xl absolute top-40">You haven't messaged or recieved any messages yet</h1>)
+    }
+  }
   function toggleRemove(userData, uid) {
     const button = !removing ?
       <button onClick={(e) => handleChat(e, userData[0], userData[1].uid)} id="chat" className="font-bold text-white absolute right-0 bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
@@ -189,6 +196,7 @@ export default function Messages() {
 
         </div>
       </div>
+      {noMessages()}
       <div className="absolute top-10 flex flex-cols">
         <h1 className="text-center text-5xl pb-14 font-movieMatch text-black dark:text-white">Messages</h1>
         <div className="pl-2">
