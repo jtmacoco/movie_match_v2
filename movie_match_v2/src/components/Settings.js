@@ -9,7 +9,9 @@ export default function Settings() {
     const { theme } = useTheme();
     const { deleteCurUser, logout } = useAuth();
     const [deleteAccount, setDeleteAccount] = useState(false)
-
+    useEffect (() =>{
+        document.title = "Settings"
+    },[])
     useEffect(() => {
         if (theme === "dark") {
             document.documentElement.classList.add("dark");

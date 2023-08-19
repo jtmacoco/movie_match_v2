@@ -13,7 +13,9 @@ export default function UpdatePassword() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const nav = useNavigate()
-
+    useEffect (() =>{
+        document.title = "Update-Password"
+    },[])
     const handleSubmit = (e) => {
         e.preventDefault()
         const info = []

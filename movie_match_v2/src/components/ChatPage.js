@@ -19,6 +19,9 @@ const ChatPage = (userId) => {
     const [recUsername, setRecUsername] = useState('')
     const [displayMessage, setDisplayMessage] = useState([])
     const messegeRef = useRef();
+    useEffect (() =>{
+        document.title = "Chat-Page"
+    },[])
     const fetchMessages = async (docId) => {
         try {
             const messagesRef = collection(db, "messages", docId, "texts")

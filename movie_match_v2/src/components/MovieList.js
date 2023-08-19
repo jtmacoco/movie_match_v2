@@ -25,6 +25,9 @@ export default function MovieList() {
     const [startX, setStartX] = useState(0);
     const [scrollX, setScrollX] = useState(0);
     const [isMouseDown, setIsMouseDown] = useState(false);
+    useEffect (() =>{
+        document.title = "Movie-List"
+    },[])
     const toggleHover = (listId, movieId) => {
         setHoverState((prev) => ({
             ...prev,

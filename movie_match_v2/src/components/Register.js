@@ -13,6 +13,9 @@ function Register() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const nav = useNavigate();
+    useEffect (() =>{
+        document.title = "Register"
+    },[])
 
     const handleSubmit = async (e) => {
         e.preventDefault()

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { motion } from "framer-motion";
 import "../global.css";
 import { useTheme } from "../context/ThemeContext";
@@ -14,6 +14,9 @@ export default function ForgotPassword() {
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('')
+    useEffect (() =>{
+        document.title = "Forgot-Password"
+    },[])
     const nav = useNavigate()
     const handleSubmit = async (e) => {
         e.preventDefault()

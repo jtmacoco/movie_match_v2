@@ -12,7 +12,9 @@ export default function UpdateEmail() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const nav = useNavigate()
-
+    useEffect (() =>{
+        document.title = "Update-Email"
+    },[])
     const handleSubmit = async (e) => {
         e.preventDefault()
         const info = []

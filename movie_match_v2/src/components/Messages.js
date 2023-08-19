@@ -27,6 +27,9 @@ export default function Messages() {
   const [mp, setMP] = useState([])
   const [noMessages, setNoMessages] = useState(false)
   const nav = useNavigate()
+  useEffect (() =>{
+    document.title = "Messages"
+},[])
 
   const pageAmount = (matches) => {
     let n = 7;
