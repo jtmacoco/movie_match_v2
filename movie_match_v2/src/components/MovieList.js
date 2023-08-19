@@ -1,20 +1,18 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { auth, db } from "../firebase"
+import React, { useEffect, useState } from 'react'
+import { db } from "../firebase"
 import { userData } from '../userData'
 import { useTheme } from "../context/ThemeContext";
-import { useIcon } from "../context/IconContext";
 import { motion } from "framer-motion";
 import { useAuth } from '../context/AuthContext';
 import { IoIosAddCircle } from "react-icons/io";
 import Navbar from './Navbar';
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { AiFillMinusCircle } from "react-icons/ai";
-import { collection, getDoc, doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import {  getDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import ThemeToggle from './ThemeToggle';
 export default function MovieList() {
     const [data, setData] = useState([])
-    const { theme, toggleTheme } = useTheme();
-    const { Icon, toggleIcon } = useIcon();
+    const { theme} = useTheme();
     const { currentUser } = useAuth()
     const [movie, setMovie] = useState('');
     const [loading, setLoading] = useState(false);
@@ -24,7 +22,6 @@ export default function MovieList() {
     const [documentId, setDocumentId] = useState('');
     const [addMovie, setAddMovie] = useState({});
     const [removeMovie, setRemoveMovie] = useState({});
-    const [mouseDown, setMouseDown] = useState(false);
     const [startX, setStartX] = useState(0);
     const [scrollX, setScrollX] = useState(0);
     const [isMouseDown, setIsMouseDown] = useState(false);
@@ -41,7 +38,6 @@ export default function MovieList() {
     const fetchData = async () => {
         const res = await userData()
         const filterData = res.filter(item => item.uid === currentUser.uid)
-        const id = res.id;
         setDocumentId(filterData.map(item => item.id));
 
         setData(filterData)
@@ -131,9 +127,10 @@ export default function MovieList() {
     }
     useEffect(() => {
         if (addMovie) {
-            updateMovieList()
+            updateMovieList();
         }
     }, [addMovie]);
+
     useEffect(() => {
         if (removeMovie) {
             handleRemove()

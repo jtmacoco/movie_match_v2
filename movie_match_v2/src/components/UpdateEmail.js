@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import "../global.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
-import { useIcon } from "../context/IconContext";
 import { useAuth } from "../context/AuthContext";
 import Navbar from "./Navbar";
 import ThemeToggle from "./ThemeToggle";
 export default function UpdateEmail() {
-    const { theme, toggleTheme } = useTheme();
-    const { Icon, toggleIcon } = useIcon();
+    const { theme} = useTheme();
     const { currentUser, updateEmail1, updatePassword1 } = useAuth();
     const [email, setEmail] = useState();
     const [error, setError] = useState('');

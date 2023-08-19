@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTheme } from "../context/ThemeContext";
 import { useIcon } from "../context/IconContext";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 export default function ThemeToggle() {
     const { theme, toggleTheme } = useTheme();
     const { Icon, toggleIcon } = useIcon();

@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import "../global.css";
 import { useTheme } from "../context/ThemeContext";
-import { useIcon } from "../context/IconContext";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Navbar from "./Navbar";
 import ThemeToggle from "./ThemeToggle";
 export default function Settings() {
-    const { theme, toggleTheme } = useTheme();
+    const { theme } = useTheme();
     const {deleteCurUser, logout} = useAuth();
     const [deleteAccount, setDeleteAccount] = useState(false)
     

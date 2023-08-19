@@ -1,26 +1,20 @@
 import { useParams } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "../context/ThemeContext";
-import { useIcon } from "../context/IconContext";
-import { AnimatePresence, motion } from "framer-motion";
 import { messageData } from '../messageData';
-import { userData } from '../userData';
 import { db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
 import ThemeToggle from './ThemeToggle';
 import Navbar from './Navbar';
 import { Timestamp, limit, orderBy } from '@firebase/firestore';
-import { startAfter, getDocs, query, addDoc, doc, collection } from '@firebase/firestore';
-//vfgu3kCmbeTqoQ3wq0XhilKFIfd2-AkA50WnKa0SCRSuATE3I52gsZxE3
+import {  getDocs, query, addDoc, doc, collection } from '@firebase/firestore';
 const ChatPage = (userId) => {
     const { usernames } = useParams();
     const [user1_Id, curUser_Id] = usernames.split('-');
-    const { theme, toggleTheme } = useTheme();
+    const { theme } = useTheme();
     const [message, setMessage] = useState([])
     const [docId, setDocId] = useState('')
-    const [userInfo, setUserInfo] = useState([])
     const { currentUser } = useAuth()
-    const [curMess, setCurMess] = useState({})
     const [curUsername, setCurUsername] = useState('')
     const [recUsername, setRecUsername ] = useState('')
     const [displayMessage, setDisplayMessage] = useState([])
@@ -66,14 +60,13 @@ const ChatPage = (userId) => {
                 setCurUsername(curMessage.user2);
                 setRecUsername(curMessage.user1);
             }
-            setCurMess(curMessage);
             setDocId(curMessage.id)
             fetchMessages(curMessage.id);
         }
     }
     useEffect(() => {
         setMessages();
-    }, [message])
+    })
     useEffect(() => {
         messegeRef.current.scrollIntoView({ behavior: "smooth" })
     }, [displayMessage])
@@ -90,7 +83,7 @@ const ChatPage = (userId) => {
         try {
             const docRef = doc(db, 'messages', docId);
             const subcollectionRef = collection(docRef, "texts");
-            const subDoc = addDoc(subcollectionRef, {
+             addDoc(subcollectionRef, {
                 text: message,
                 sender_Id: currentUser.uid,
                 time: Timestamp.now(),

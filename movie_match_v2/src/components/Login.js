@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import "../global.css";
 import { useTheme } from "../context/ThemeContext";
-import { useIcon } from "../context/IconContext";
 import { useAuth } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
 function Login() {
-    const { theme, toggleTheme } = useTheme();
-    const { Icon, toggleIcon } = useIcon();
+    const { theme} = useTheme();
     const { login } = useAuth();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);

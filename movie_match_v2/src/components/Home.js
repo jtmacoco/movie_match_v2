@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import "../global.css";
 import { useTheme } from "../context/ThemeContext";
-import { useIcon } from "../context/IconContext";
 import { useAuth } from "../context/AuthContext";
 import Navbar from "./Navbar";
 import { messageData } from "../messageData";
@@ -13,9 +12,9 @@ import { TERipple } from "tw-elements-react";
 import { useNavigate } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
 import { db } from "../firebase";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 export default function Home() {
-  const { theme, toggleTheme } = useTheme();
+  const { theme} = useTheme();
   const [data, setData] = useState([])
   const [matches, setMatches] = useState([])
   const [info, setInfo] = useState(false);
