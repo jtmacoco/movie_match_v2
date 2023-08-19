@@ -14,7 +14,7 @@ import ThemeToggle from "./ThemeToggle";
 import { db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
 export default function Home() {
-  const { theme} = useTheme();
+  const { theme } = useTheme();
   const [data, setData] = useState([])
   const [matches, setMatches] = useState([])
   const [info, setInfo] = useState(false);
@@ -22,11 +22,11 @@ export default function Home() {
   const [message, setMessage] = useState(null)
   const { currentUser } = useAuth()
   const [pages, setPages] = useState([])
-  const [mp,setMP] = useState([])
+  const [mp, setMP] = useState([])
   const nav = useNavigate()
   const pageAmount = (matches) => {
     let n = 7;
-    if(window.innerHeight > 1000){
+    if (window.innerHeight > 1000) {
       n = 10;
     }
     let size = matches.length;
@@ -40,31 +40,31 @@ export default function Home() {
     let itemsPerPage = size / n + inc
     const pageArr = Array.from({ length: itemsPerPage }, (_, i) => i + 1);
     setPages(pageArr);
-    matchesPerPage(1,matches,n);
+    matchesPerPage(1, matches, n);
   }
   useEffect(() => {
     const handleResize = () => {
       pageAmount(matches);
     };
-  
+
     window.addEventListener('resize', handleResize);
-  
+
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []); 
-  
-  const matchesPerPage = (page,matches,n) => {
-    let startIndex = (page- 1) * n;
-    let endIndex = (page* n);
-    if(!matches[endIndex]){
+  }, []);
+
+  const matchesPerPage = (page, matches, n) => {
+    let startIndex = (page - 1) * n;
+    let endIndex = (page * n);
+    if (!matches[endIndex]) {
       endIndex = matches.length;
     }
     let limit = []
-    try{
-    limit = matches.slice(startIndex, endIndex);
-    }catch(error){
-      console.error("error: ",error);
+    try {
+      limit = matches.slice(startIndex, endIndex);
+    } catch (error) {
+      console.error("error: ", error);
     }
     setMP(limit);
   }
@@ -107,8 +107,8 @@ export default function Home() {
   }, [])
   const checkDup = (userId) => {
     const dup = message.find(m => {
-      return ((m.user1_Id === userId && m.user2_Id === currentUser.uid)||
-      (m.user2_Id === userId && m.user1_Id === currentUser.uid) 
+      return ((m.user1_Id === userId && m.user2_Id === currentUser.uid) ||
+        (m.user2_Id === userId && m.user1_Id === currentUser.uid)
       )
     })
     if (dup)
@@ -182,19 +182,19 @@ export default function Home() {
         <div className="  overflow-y-auto max-h-[75vh] py-6 px-14 relative gap-y-4 flex items-center flex-col  ">
           {mp.map(userData => (
             <>
-            <div key={userData[1].uid}>
-              <motion.div whileHover={{ scale: 1.2 }}>
-                <TERipple>
-                  <div className="w-96 ">
-                    <div className=" h-16 border border-neutral-500 dark:bg-dark_border bg-light_border rounded-md flex flex-row items-center">
-                      <button id="users" onClick={() => toggleCollapse(userData[1].uid)} className="text-black pl-2 font-bold dark:text-white">{userData[0]}</button>
-                      <button onClick={(e) => handleChat(e, userData[0], userData[1].uid)} id="chat" className="font-bold text-white absolute right-0 bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Chat</button>
+              <div key={userData[1].uid}>
+                <motion.div whileHover={{ scale: 1.2 }}>
+                  <TERipple>
+                    <div className="w-96 ">
+                      <div className=" h-16 border border-neutral-500 dark:bg-dark_border bg-light_border rounded-md flex flex-row items-center">
+                        <button id="users" onClick={() => toggleCollapse(userData[1].uid)} className="text-black pl-2 font-bold dark:text-white">{userData[0]}</button>
+                        <button onClick={(e) => handleChat(e, userData[0], userData[1].uid)} id="chat" className="font-bold text-white absolute right-0 bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Chat</button>
+                      </div>
                     </div>
-                  </div>
-                </TERipple>
-              </motion.div>
+                  </TERipple>
+                </motion.div>
 
-</div>
+              </div>
               <AnimatePresence>
                 {collapseStates[userData[1].uid] && (
                   <motion.div
@@ -221,26 +221,25 @@ export default function Home() {
               </AnimatePresence>
             </>
           ))}
-          
+
         </div>
       </div>
       <ul className="absolute bottom-10 items-center justify-center flex flex-rows gap-x-4">
-            {pages.map((page, index) => (
-              <li className="text-black dark:text-white"
-                key={index}>
-                  <button onClick={()=>
-                  {
-                    let n = 7
-                    if(window.innerHeight > 1000)
-                    {
-                      n = 10
-                    }
-                    matchesPerPage(page,matches,n)}}>
-                  
-                      {page} </button>
-              </li>
-            ))}
-          </ul>
+        {pages.map((page, index) => (
+          <li className="text-black dark:text-white"
+            key={index}>
+            <button onClick={() => {
+              let n = 7
+              if (window.innerHeight > 1000) {
+                n = 10
+              }
+              matchesPerPage(page, matches, n)
+            }}>
+
+              {page} </button>
+          </li>
+        ))}
+      </ul>
       <Navbar />
     </div>
   )

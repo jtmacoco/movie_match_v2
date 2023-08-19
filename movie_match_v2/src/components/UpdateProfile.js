@@ -69,7 +69,7 @@ export default function UpdateProfile() {
                     <div className="pb-10">
                         <input id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="rounded-md p-2 pr-10 bg-slate-100" />
                     </div>
-                     <div className="pb-10">
+                    <div className="pb-10">
                         <input id="oldPassword" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} placeholder="Old Password" className="rounded-md p-2 pr-10 bg-slate-100" />
                     </div>
                     <div className="pb-10">

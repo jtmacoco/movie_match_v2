@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import "../global.css";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
-import { useIcon } from "../context/IconContext";
 import { useAuth } from "../context/AuthContext";
 import ThemeToggle from "./ThemeToggle";
 function Register() {
-    const { theme, toggleTheme } = useTheme();
-    const { Icon, toggleIcon } = useIcon();
-    const { signup, currentUser } = useAuth();
+    const { theme } = useTheme();
+    const { signup } = useAuth();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
@@ -46,12 +43,12 @@ function Register() {
 
     return (
         <div className={`${theme === "dark" ? "bg-dark_back" : "bg-light_back"} h-screen flex justify-center items-center flex-col`}>
-          <ThemeToggle/> 
-            {error && 
-            <div class="text-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-            <strong class="font-bold">{error}</strong>
-            <span class="absolute top-0 bottom-0 right-0 px-4 py-3"/>
-          </div>
+            <ThemeToggle />
+            {error &&
+                <div class="text-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <strong class="font-bold">{error}</strong>
+                    <span class="absolute top-0 bottom-0 right-0 px-4 py-3" />
+                </div>
             }
             <div className="rounded-md bg-light_border border border-neutral-500 p-20 dark:bg-dark_border">
                 <h1 className="text-center text-5xl pb-14 text-black dark:text-white">Create Account</h1>
@@ -66,7 +63,7 @@ function Register() {
                         <input type="password" id="confirm_password" placeholder="Confirm Password" onChange={(p) => setConfirmPassword(p.target.value)} value={confirmPassword} className="text-black rounded-md p-2 pr-10 bg-slate-100" />
                     </div>
                     <div className="pb-4">
-                            <button disabled={loading} type="submit" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Next</button>
+                        <button disabled={loading} type="submit" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Next</button>
                     </div>
                 </form>
                 <Link to="/">

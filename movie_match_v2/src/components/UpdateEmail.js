@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthContext";
 import Navbar from "./Navbar";
 import ThemeToggle from "./ThemeToggle";
 export default function UpdateEmail() {
-    const { theme} = useTheme();
+    const { theme } = useTheme();
     const { currentUser, updateEmail1, updatePassword1 } = useAuth();
     const [email, setEmail] = useState();
     const [error, setError] = useState('');
@@ -20,7 +20,7 @@ export default function UpdateEmail() {
         setError("")
         if (email !== currentUser.email) {
             try {
-                await updateEmail1(email); // Wait for the promise to resolve
+                await updateEmail1(email);
             } catch (error) {
                 setError(error.message || "Failed to update");
             }
@@ -45,9 +45,9 @@ export default function UpdateEmail() {
     }, [theme]);
     return (
         <div className={`${theme === "dark" ? "bg-dark_back" : "bg-light_back"} h-screen flex justify-center items-center flex-col`}>
-          <ThemeToggle/> 
+            <ThemeToggle />
             {error}
-            <Navbar/>
+            <Navbar />
             <div className="rounded-md bg-light_border border border-neutral-500 p-20 dark:bg-dark_border">
                 <h1 className="text-center text-5xl pb-14 text-black dark:text-white">Change Email</h1>
                 <form onSubmit={handleSubmit}>

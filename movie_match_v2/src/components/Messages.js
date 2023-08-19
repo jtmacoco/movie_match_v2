@@ -24,7 +24,7 @@ export default function Messages() {
   const { currentUser } = useAuth()
   const [pages, setPages] = useState([])
   const [removing, setRemoving] = useState(false)
-  const [mp,setMP] = useState([])
+  const [mp, setMP] = useState([])
   const [noMessages, setNoMessages] = useState(false)
   const nav = useNavigate()
 
@@ -98,8 +98,7 @@ export default function Messages() {
     }
     )
     const sortedArray = [...usersData.entries()]
-    if(sortedArray.length === 0)
-    {
+    if (sortedArray.length === 0) {
       setNoMessages(true);
     }
     setMatches(sortedArray)
@@ -108,7 +107,7 @@ export default function Messages() {
   useEffect(() => {
     fetchData()
   }, [])
-  
+
   const checkDup = (userId) => {
     const dup = message.find(m => {
       return (m.user1_Id === userId) ||
@@ -119,7 +118,7 @@ export default function Messages() {
     else
       return false
   }
-  
+
 
   useEffect(() => {
     if (theme === "dark") {
@@ -140,7 +139,7 @@ export default function Messages() {
       nav(`/chat/${userId}-${currentUser.uid}`)
       return;
     }
-   
+
     try {
       const docRef = await addDoc(collection(db, "messages"), {
         user1: user,
@@ -154,19 +153,19 @@ export default function Messages() {
     }
 
   }
-  
+
   function toggleRemove(userData, uid) {
     const button = !removing ?
       <button onClick={(e) => handleChat(e, userData[0], userData[1].uid)} id="chat" className="font-bold text-white absolute right-0 bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
         Chat
       </button> :
-      <button  onClick={async()=>{deleteMessages(currentUser.uid,uid); fetchData()}} className="absolute right-0  focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+      <button onClick={async () => { deleteMessages(currentUser.uid, uid); fetchData() }} className="absolute right-0  focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
         Delete
       </button>
     return (
       <>
-      {button}
-</>
+        {button}
+      </>
     )
   }
   return (
@@ -194,8 +193,8 @@ export default function Messages() {
       </div>
       {noMessages && (
         <h1 className="text-black font-bold dark:text-white text-2xl absolute top-40">
-        You haven't messaged or received any messages yet
-      </h1>
+          You haven't messaged or received any messages yet
+        </h1>
       )}
       <button onClick={() => setRemoving((prev) => !prev)} className="absolute right-20 top-24 focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
         {removing ? <p>Finished</p> : <p>Remove Chats</p>}
@@ -211,7 +210,7 @@ export default function Messages() {
                       <div className="h-16 border border-neutral-500 dark:bg-dark_border bg-light_border rounded-md flex flex-row items-center">
                         <button id="users" onClick={() => toggleCollapse(userData[1].uid)} className="text-black pl-2 font-bold dark:text-white">{userData[0]}</button>
                         {toggleRemove(userData, userData[1].uid)}
-                        
+
                       </div>
                     </div>
                   </TERipple>

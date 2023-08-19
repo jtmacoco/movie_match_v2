@@ -33,13 +33,13 @@ export default function Navbar() {
                             </li>
                             <li className='pb-8'>
                                 <Link to="/movieList">
-                                Movie List
-</Link>
+                                    Movie List
+                                </Link>
                             </li>
                             <li className='pb-8'>
                                 <Link to="/messages">
-                                Messages
-</Link>
+                                    Messages
+                                </Link>
                             </li>
                             <li className='pb-8'>
                                 <Link to="/settings">

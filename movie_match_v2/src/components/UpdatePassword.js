@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthContext";
 import Navbar from "./Navbar";
 import ThemeToggle from "./ThemeToggle";
 export default function UpdatePassword() {
-    const { theme} = useTheme();
+    const { theme } = useTheme();
     const { currentUser, updatePassword1 } = useAuth();
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
@@ -33,7 +33,6 @@ export default function UpdatePassword() {
         })
     }
 
-
     useEffect(() => {
         if (theme === "dark") {
             document.documentElement.classList.add("dark");
@@ -43,8 +42,8 @@ export default function UpdatePassword() {
     }, [theme]);
     return (
         <div className={`${theme === "dark" ? "bg-dark_back" : "bg-light_back"} h-screen flex justify-center items-center flex-col`}>
-           <ThemeToggle/> 
-            <Navbar/>
+            <ThemeToggle />
+            <Navbar />
             {error}
             <div className="rounded-md bg-light_border border border-neutral-500 p-20 dark:bg-dark_border ">
                 <h1 className="text-center text-5xl pb-14 text-black dark:text-white">Change Password</h1>

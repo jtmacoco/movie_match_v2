@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import ThemeToggle from './ThemeToggle';
 import Navbar from './Navbar';
 import { Timestamp, limit, orderBy } from '@firebase/firestore';
-import {  getDocs, query, addDoc, doc, collection } from '@firebase/firestore';
+import { getDocs, query, addDoc, doc, collection } from '@firebase/firestore';
 const ChatPage = (userId) => {
     const { usernames } = useParams();
     const [user1_Id, curUser_Id] = usernames.split('-');
@@ -16,7 +16,7 @@ const ChatPage = (userId) => {
     const [docId, setDocId] = useState('')
     const { currentUser } = useAuth()
     const [curUsername, setCurUsername] = useState('')
-    const [recUsername, setRecUsername ] = useState('')
+    const [recUsername, setRecUsername] = useState('')
     const [displayMessage, setDisplayMessage] = useState([])
     const messegeRef = useRef();
     const fetchMessages = async (docId) => {
@@ -36,27 +36,26 @@ const ChatPage = (userId) => {
     }
     const setMessages = async () => {
         const messagesData = await messageData();
-        if(messagesData.find(m =>(
+        if (messagesData.find(m => (
             m.user1_Id === user1_Id && m.user2_Id === curUser_Id
-        ))){
+        ))) {
         }
-        else if(messagesData.find(m =>(
+        else if (messagesData.find(m => (
             m.user1_Id === user1_Id && m.user2_Id === curUser_Id
-        ))){
+        ))) {
         }
-        
+
 
         const curMessage = messagesData.find(m => {
             return (m.user1_Id === user1_Id && m.user2_Id === curUser_Id) ||
                 (m.user2_Id === user1_Id && m.user1_Id === curUser_Id)
         })
         if (curMessage) {
-            if(curMessage.user1_Id === curUser_Id)
-            {
+            if (curMessage.user1_Id === curUser_Id) {
                 setCurUsername(curMessage.user1);
                 setRecUsername(curMessage.user2);
             }
-            else{
+            else {
                 setCurUsername(curMessage.user2);
                 setRecUsername(curMessage.user1);
             }
@@ -83,7 +82,7 @@ const ChatPage = (userId) => {
         try {
             const docRef = doc(db, 'messages', docId);
             const subcollectionRef = collection(docRef, "texts");
-             addDoc(subcollectionRef, {
+            addDoc(subcollectionRef, {
                 text: message,
                 sender_Id: currentUser.uid,
                 time: Timestamp.now(),
@@ -96,7 +95,7 @@ const ChatPage = (userId) => {
     }
 
     function ChatMessage(props) {
-        const { text, sender_Id} = props.message;
+        const { text, sender_Id } = props.message;
         const curSender = sender_Id === currentUser.uid;
 
         const alignmentClass = curSender ? "self-end" : "self-start";

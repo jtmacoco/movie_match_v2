@@ -8,11 +8,11 @@ import { IoIosAddCircle } from "react-icons/io";
 import Navbar from './Navbar';
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { AiFillMinusCircle } from "react-icons/ai";
-import {  getDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
+import { getDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import ThemeToggle from './ThemeToggle';
 export default function MovieList() {
     const [data, setData] = useState([])
-    const { theme} = useTheme();
+    const { theme } = useTheme();
     const { currentUser } = useAuth()
     const [movie, setMovie] = useState('');
     const [loading, setLoading] = useState(false);
@@ -116,14 +116,14 @@ export default function MovieList() {
         const movie = movieData.find((value) => value.id === movieId);
         if (movie) {
             setAddMovie(movie);
-        } 
+        }
     };
     const getRemoveMovie = (movieId) => {
         const movie = data.map((info) => info.movieList.find((value) => value.id === movieId));
         if (movie) {
             setRemoveMovie(movie);
-            
-        } 
+
+        }
     }
     useEffect(() => {
         if (addMovie) {
@@ -212,25 +212,25 @@ export default function MovieList() {
         setScrollX(0);
         setStartX(e.clientX);
         setIsMouseDown(true);
-      };
-    
-      const handleMouseUp = () => {
+    };
+
+    const handleMouseUp = () => {
         setIsMouseDown(false);
-      };
-    
-      const handleMouseMove = (e,id) => {
+    };
+
+    const handleMouseMove = (e, id) => {
         if (!isMouseDown) return;
-    
+
         const deltaX = e.clientX - startX;
         setScrollX(scrollX - deltaX);
-        
+
         var right = document.getElementById(id)
-        right.scrollLeft= right.scrollLeft+(scrollX*3);
+        right.scrollLeft = right.scrollLeft + (scrollX * 3);
         setStartX(e.clientX);
-      };
+    };
     return (
         <div className={`flex flex-col min-h-screen ${theme === "dark" ? "bg-dark_back" : "bg-light_back"} bg-cover `}>
-          <ThemeToggle/> 
+            <ThemeToggle />
             <div className='flex justify-center items-center'>
                 <h1 className="absolute top-5 text-center text-5xl pb-14 font-movieMatch text-black dark:text-white">Your Movie List</h1>
             </div>
@@ -250,9 +250,9 @@ export default function MovieList() {
 
                                 >
                                     <img
-                                     onMouseDown={handleMouseDown}
-                                     onMouseUp={handleMouseUp}
-                                     onMouseMove={(e)=>handleMouseMove(e,"list-container")}
+                                        onMouseDown={handleMouseDown}
+                                        onMouseUp={handleMouseUp}
+                                        onMouseMove={(e) => handleMouseMove(e, "list-container")}
                                         key={movieInfo.title}
                                         className="w-fit h-96 lg:h-80 xl:h-80 2xl:h-96 border border-neutral-500 rounded-xl"
                                         src={`https://image.tmdb.org/t/p/original${movieInfo.poster_path}`}
@@ -299,17 +299,17 @@ export default function MovieList() {
                     <ul onMouseLeave={handleMouseUp} id="image-container" className={`pl-10 ${theme === "dark" ? "bg-dark_back" : "bg-light_back"} overflow-y-hidden flex flex-row absolute overflow-x-auto scroll-smooth`}>
                         {movieData.map((movieInfo, index) => (
                             <li
-                            key={index} className=" py-12 d-flex flex-none flex flex-cols">
+                                key={index} className=" py-12 d-flex flex-none flex flex-cols">
                                 <motion.div whileHover={{ scale: 1.2 }}
                                     onMouseEnter={() => toggleHover(movieData.id, movieInfo.id)}
                                     onMouseLeave={() => toggleHover(movieData.id, movieInfo.id)}
                                 >
 
                                     <img
-                                    onMouseDown={handleMouseDown}
-                                    onMouseUp={handleMouseUp}
-                                    onMouseMove={(e)=>handleMouseMove(e,"image-container")}
-                                    
+                                        onMouseDown={handleMouseDown}
+                                        onMouseUp={handleMouseUp}
+                                        onMouseMove={(e) => handleMouseMove(e, "image-container")}
+
                                         className="fit h-96 px-1 rounded-2xl "
                                         src={`https://image.tmdb.org/t/p/original${movieInfo.poster_path}`}
                                         alt={`Movie Poster ${index}`}
