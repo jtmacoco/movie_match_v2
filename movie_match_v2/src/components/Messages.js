@@ -71,7 +71,6 @@ export default function Messages() {
     } catch (error) {
       console.error("error: ", error);
     }
-    //console.log("limit: ",limit);
     setMP(limit);
   }
   const toggleCollapse = (userId) => {
@@ -91,7 +90,6 @@ export default function Messages() {
     const messages = await messageData();
     const mpd = await messagePageData(currentUser.uid);
     setMessage(messages);
-    //const matches = await matchList(currentUser);
     let arrFilter = mpd;
     const usersData = new Map()
     arrFilter.forEach(item => {
@@ -102,7 +100,6 @@ export default function Messages() {
     }
     )
     const sortedArray = [...usersData.entries()]
-    //console.log("sortedArr: ", sortedArray)
     if(sortedArray.length === 0)
     {
       setNoMessages(true);
@@ -115,7 +112,6 @@ export default function Messages() {
   }, [])
   
   const checkDup = (userId) => {
-    console.log("userId: ", userId)
     const dup = message.find(m => {
       return (m.user1_Id === userId) ||
         (m.user2_Id === userId)
@@ -125,9 +121,7 @@ export default function Messages() {
     else
       return false
   }
-  //useEffect(() => {
-  //  console.log("message", message);
-  //}, [message])
+  
 
   useEffect(() => {
     if (theme === "dark") {
@@ -145,13 +139,10 @@ export default function Messages() {
     })
 
     if (checkDup(userId)) {
-      //console.log("dup is true")
       nav(`/chat/${userId}-${currentUser.uid}`)
       return;
     }
-    else {
-      //console.log("dup not true")
-    }
+   
     try {
       const docRef = await addDoc(collection(db, "messages"), {
         user1: user,

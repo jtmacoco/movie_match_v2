@@ -40,7 +40,6 @@ export default function Home() {
     }
     let itemsPerPage = size / n + inc
     const pageArr = Array.from({ length: itemsPerPage }, (_, i) => i + 1);
-    //console.log("pageArr: ", pageArr)
     setPages(pageArr);
     matchesPerPage(1,matches,n);
   }
@@ -57,8 +56,6 @@ export default function Home() {
   }, []); 
   
   const matchesPerPage = (page,matches,n) => {
-    //console.log("input matches: ",matches)
-    console.log("matches length: ",matches.length)
     let startIndex = (page- 1) * n;
     let endIndex = (page* n);
     if(!matches[endIndex]){
@@ -110,7 +107,6 @@ export default function Home() {
     fetchMatchList()
   }, [])
   const checkDup = (userId) => {
-    console.log("userId: ", userId)
     const dup = message.find(m => {
       return ((m.user1_Id === userId && m.user2_Id === currentUser.uid)||
       (m.user2_Id === userId && m.user1_Id === currentUser.uid) 
@@ -121,10 +117,6 @@ export default function Home() {
     else
       return false
   }
- // useEffect(() => {
- //   console.log("message", message);
- // }, [message])
-
   useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
@@ -141,12 +133,8 @@ export default function Home() {
     })
 
     if (checkDup(userId)) {
-      console.log("dup is true")
       nav(`/chat/${userId}-${currentUser.uid}`)
       return;
-    }
-    else {
-      console.log("dup not true")
     }
     try {
       const docRef = await addDoc(collection(db, "messages"), {
@@ -155,13 +143,6 @@ export default function Home() {
         user2: curUsername,
         user2_Id: currentUser.uid,
       });
-      //  const subcollectionRef = collection(docRef, "texts");
-      //  const subDoc = addDoc(subcollectionRef,{
-      //    texts:'',
-      //    time: Timestamp.now(),
-      //    sender_uid: currentUser.uid,
-      //  })
-      console.log("added doc successfully ")
       nav(`/chat/${userId}-${currentUser.uid}`)
     } catch (e) {
       console.error("error adding document: ", e);

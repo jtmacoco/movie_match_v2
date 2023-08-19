@@ -33,12 +33,11 @@ const ChatPage = (userId) => {
             const messages = []
             querySnapshot.forEach((doc) => {
                 messages.push(doc.data())
-                //console.log("Message ID: ", doc.id, "Message Data: ", doc.data().text);
             });
             const reverseMessages = [...messages].reverse();
             setDisplayMessage(reverseMessages)
         } catch (error) {
-            console.log("error: ", error);
+            console.error("error: ", error);
         }
     }
     const setMessages = async () => {
@@ -46,16 +45,12 @@ const ChatPage = (userId) => {
         if(messagesData.find(m =>(
             m.user1_Id === user1_Id && m.user2_Id === curUser_Id
         ))){
-            console.log("yes first if statment exists")
         }
         else if(messagesData.find(m =>(
             m.user1_Id === user1_Id && m.user2_Id === curUser_Id
         ))){
-            console.log("yes second if statment exists")
         }
-        else{
-            console.log("something went wrong");
-        }
+        
 
         const curMessage = messagesData.find(m => {
             return (m.user1_Id === user1_Id && m.user2_Id === curUser_Id) ||
@@ -102,9 +97,8 @@ const ChatPage = (userId) => {
             })
             setMessage("");
             messegeRef.current.scrollIntoView({ behavior: "smooth" })
-            console.log("sucess")
         } catch (error) {
-            console.log("error adding texts: ", error)
+            console.error("error adding texts: ", error)
         }
     }
 

@@ -16,12 +16,10 @@ export const deleteUserData= async(uid) =>{
             try{
                 for (const textDoc of subCollectionSnapshot.docs) {
                     await deleteDoc(textDoc.ref);
-                    console.log("delete sub collection")
                 }
                 await deleteDoc(doc(db,'messages',messageDoc.id))
-                console.log("delted message data successfully")
             }catch(error){
-                console.log("error: ", error)
+                console.error("error: ", error)
             }
         }
     }
@@ -33,9 +31,8 @@ export const deleteUserData= async(uid) =>{
             
             try{
                 await deleteDoc(doc(db,'userData',userDataDoc.id))
-                console.log("delted user data successfully")
             }catch(error){
-                console.log("error: ", error)
+                console.error("error: ", error)
             } 
         }
     }

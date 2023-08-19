@@ -66,8 +66,6 @@ export default function Movies() {
     };
     const handleRemove = (remove_movie) => {
         const remove = movieList.filter(function (el) {
-            console.log("el.title: ", el.title);
-            console.log("remove_movie.title: ", remove_movie.title);
             return el.release_date !== remove_movie.release_date || el.title !== remove_movie.title;
         });
         setMovieList(remove);
@@ -93,7 +91,6 @@ export default function Movies() {
                 uid:currentUser.uid,
             });
             nav("/home")
-        //    console.log("Document written with ID: ", docRef.id);
         } catch (e) {
             console.error("error adding document: ", e);
         }

@@ -48,7 +48,6 @@ export default function MovieList() {
     }
     const updateMovieList = async () => {
         try {
-            console.log(addMovie);
             const docRef = doc(db, 'userData', documentId[0]);
             await updateDoc(docRef, {
                 movieList: arrayUnion(addMovie),
@@ -64,10 +63,7 @@ export default function MovieList() {
                     return item;
                 })
             );
-            console.log('movie added');
         } catch (error) {
-            console.log(documentId)
-            console.log(addMovie);
             console.error('error adding movie: ', error);
         }
 
@@ -81,7 +77,6 @@ export default function MovieList() {
             if (docSnap.exists()) {
                 const docData = docSnap.data();
 
-                console.log("remove id, ", removeMovie[0].id);
                 const updatedMovieList = docData.movieList.filter(movie => movie.id !== removeMovie[0].id);
                 const updatedHoverState = { ...hoverState };
                 delete updatedHoverState[documentId[0]][removeMovie[0].id];
@@ -100,7 +95,6 @@ export default function MovieList() {
                     });
                 });
             } else {
-                console.log('Document not found');
             }
         } catch (error) {
             console.error('Error removing movie: ', error);
@@ -126,33 +120,23 @@ export default function MovieList() {
         const movie = movieData.find((value) => value.id === movieId);
         if (movie) {
             setAddMovie(movie);
-            console.log(movie.title)
-        } else {
-            console.log("Movie not found.");
-        }
+        } 
     };
     const getRemoveMovie = (movieId) => {
-        //const movie = data.movieList.find((value) => value.id === movieId);
-        //        const movie = data.find((value) => value.id === movieId);
         const movie = data.map((info) => info.movieList.find((value) => value.id === movieId));
-        console.log("movie: ", movie);
         if (movie) {
             setRemoveMovie(movie);
-            console.log("found movie : ", movie)
-        } else {
-            console.log("Movie not found.");
-        }
+            
+        } 
     }
     useEffect(() => {
         if (addMovie) {
             updateMovieList()
-            console.log("Found movie:", addMovie.title);
         }
     }, [addMovie]);
     useEffect(() => {
         if (removeMovie) {
             handleRemove()
-            console.log("Found movie:", removeMovie.title);
         }
     }, [removeMovie])
     useEffect(() => {
@@ -242,8 +226,6 @@ export default function MovieList() {
     
         const deltaX = e.clientX - startX;
         setScrollX(scrollX - deltaX);
-//        console.log("scrollX: ", scrollX*2);
- //       console.log("startX: ", startX);
         
         var right = document.getElementById(id)
         right.scrollLeft= right.scrollLeft+(scrollX*3);

@@ -4,7 +4,6 @@ import { limit, query, orderBy, collection, getDocs, doc } from "firebase/firest
 
 export const messagePageData = async (curUserId) => {
     const messagesQuerySnapshot = await getDocs(collection(db, "messages"));
-    //    const messagesCollectionRef = collection(db, "messages");
     const newestMessage = []
     for (const messageDoc of messagesQuerySnapshot.docs) {
         const messageData = messageDoc.data();
@@ -34,6 +33,5 @@ export const messagePageData = async (curUserId) => {
         else
             filterArr.push(item.user1Id)
     })
-    //console.log("fiterArr: ", filterArr)
     return filterArr;
 }
