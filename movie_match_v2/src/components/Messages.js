@@ -52,6 +52,7 @@ export default function Messages() {
   useEffect(() => {
     const handleResize = () => {
       pageAmount(matches);
+      fetchData()
     };
 
     window.addEventListener('resize', handleResize);
