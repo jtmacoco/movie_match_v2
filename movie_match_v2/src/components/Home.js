@@ -24,6 +24,9 @@ export default function Home() {
   const [pages, setPages] = useState([])
   const [mp, setMP] = useState([])
   const nav = useNavigate()
+  useEffect (() =>{
+    document.title = "Home"
+},[])
   const pageAmount = (matches) => {
     let n = 7;
     if (window.innerHeight > 1000) {
@@ -44,6 +47,8 @@ export default function Home() {
   }
   useEffect(() => {
     const handleResize = () => {
+      fetchData()
+    fetchMatchList()
       pageAmount(matches);
     };
 
@@ -104,6 +109,15 @@ export default function Home() {
   useEffect(() => {
     fetchData()
     fetchMatchList()
+    const handleResize = () => {
+      pageAmount(matches);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, [])
   const checkDup = (userId) => {
     const dup = message.find(m => {
@@ -136,7 +150,7 @@ export default function Home() {
       return;
     }
     try {
-      const docRef = await addDoc(collection(db, "messages"), {
+       await addDoc(collection(db, "messages"), {
         user1: user,
         user1_Id: userId,
         user2: curUsername,

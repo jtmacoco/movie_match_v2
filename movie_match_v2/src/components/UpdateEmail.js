@@ -7,7 +7,7 @@ import Navbar from "./Navbar";
 import ThemeToggle from "./ThemeToggle";
 export default function UpdateEmail() {
     const { theme } = useTheme();
-    const { currentUser, updateEmail1, updatePassword1 } = useAuth();
+    const { currentUser, updateEmail1} = useAuth();
     const [email, setEmail] = useState();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
