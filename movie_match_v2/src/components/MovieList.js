@@ -281,7 +281,7 @@ export default function MovieList() {
             </div>
 
             <div className='flex items-center justify-center'>
-                <div className='absolute bottom-1/3 2xl:bottom-1/4 flex '>
+                <div className='absolute bottom-1/4 2xl:bottom-1/4 flex '>
                     <div>
                         <input
                             id="Movie"
@@ -302,8 +302,8 @@ export default function MovieList() {
                     </div>
                 </div>
 </div>
-                <div className='absolute top-[70vh] overflow-hidden   '>
-                    <ul onMouseLeave={handleMouseUp} id="image-container" className={` px-10 py-10 flex flex-row overflow-x-auto scroll-smooth`}>
+                <div className='absolute top-[80vh] overflow-hidden   '>
+                    <ul onMouseLeave={handleMouseUp} id="image-container" className={`  ${theme === "dark" ? "bg-dark_back" : "bg-light_back"}  px-10 py-10 flex flex-row overflow-x-auto scroll-smooth`}>
                         {movieData.map((movieInfo, index) => (
                             <li
                                 key={index} 
