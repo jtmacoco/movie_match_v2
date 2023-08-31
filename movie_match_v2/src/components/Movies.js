@@ -9,6 +9,7 @@ import { IoIosAddCircle } from "react-icons/io";
 import { AiFillMinusCircle } from "react-icons/ai";
 import { db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
+import { BsFillCheckCircleFill } from "react-icons/bs";
 import { useAuth } from "../context/AuthContext";
 import ThemeToggle from "./ThemeToggle";
 export default function Movies() {
@@ -162,12 +163,16 @@ export default function Movies() {
                                         {movieItem.title}
                                     </button>
                                 </TERipple>
-                                <button>
-                                    <IoIosAddCircle
-                                        onClick={() => setMovieList((prev) => [...prev, movieItem])}
-                                        color={`${theme === "dark" ? "white" : "black"}`}
-                                    />
-                                </button>
+                                {movieList.find(movie => movie.id === movieItem.id) ?
+                                    <BsFillCheckCircleFill color={"green"}/>
+                                    :
+                                    <button>
+                                        <IoIosAddCircle
+                                            onClick={() => setMovieList((prev) => [...prev, movieItem])}
+                                            color={`${theme === "dark" ? "white" : "black"}`}
+                                        />
+                                    </button>
+                                }
                             </div>
                             <div className="pb-1">
                                 <AnimatePresence>
