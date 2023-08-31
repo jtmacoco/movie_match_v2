@@ -232,13 +232,15 @@ export default function MovieList() {
         setStartX(e.clientX);
     };
     return (
-        <div className={`flex flex-col min-h-screen ${theme === "dark" ? "bg-dark_back" : "bg-light_back"} bg-cover `}>
+        <div style={{height:"110vh"}}className={` h-screen  ${theme === "dark" ? "bg-dark_back" : "bg-light_back"}  `}>
             <ThemeToggle />
+
             <div className='flex justify-center items-center'>
                 <h1 className="absolute top-5 text-center text-5xl pb-14 font-movieMatch text-black dark:text-white">Your Movie List</h1>
             </div>
-            <div className='absolute top-24 '>
-                <ul onMouseLeave={handleMouseUp} id="list-container" className='  w-screen  px-8 flex pt-10 pb-10 flex-cols gap-5 overflow-x-auto scroll-smooth'>
+
+            <div className='relative top-24'>
+                <ul onMouseLeave={handleMouseUp} id="list-container" className='    px-8 flex pt-10 pb-10 flex-cols gap-5 overflow-x-auto scroll-smooth'>
                     {data.map(info => (
                         info.movieList.map(movieInfo => (
                             <li className='div-flex flex-none '>
@@ -277,8 +279,9 @@ export default function MovieList() {
                     ))}
                 </ul>
             </div>
-            <div className='absolute bottom-1/4 2xl:bottom-1/3 items-center justify-center w-full'>
-                <div className=' flex items-center justify-center w-full'>
+
+            <div className='flex items-center justify-center'>
+                <div className='absolute bottom-1/3 2xl:bottom-1/4 flex '>
                     <div>
                         <input
                             id="Movie"
@@ -298,11 +301,13 @@ export default function MovieList() {
                         </button>
                     </div>
                 </div>
-                <div >
-                    <ul onMouseLeave={handleMouseUp} id="image-container" className={`pl-10 ${theme === "dark" ? "bg-dark_back" : "bg-light_back"} overflow-y-hidden flex flex-row absolute overflow-x-auto scroll-smooth`}>
+</div>
+                <div className='absolute top-[70vh] overflow-hidden   '>
+                    <ul onMouseLeave={handleMouseUp} id="image-container" className={` px-10 py-10 flex flex-row overflow-x-auto scroll-smooth`}>
                         {movieData.map((movieInfo, index) => (
                             <li
-                                key={index} className=" py-12 d-flex flex-none flex flex-cols">
+                                key={index} 
+                                className=" py-5 d-flex flex-none flex flex-cols">
                                 <motion.div whileHover={{ scale: 1.2 }}
                                     onMouseEnter={() => toggleHover(movieData.id, movieInfo.id)}
                                     onMouseLeave={() => toggleHover(movieData.id, movieInfo.id)}
@@ -313,12 +318,11 @@ export default function MovieList() {
                                         onMouseUp={handleMouseUp}
                                         onMouseMove={(e) => handleMouseMove(e, "image-container")}
 
-                                        className="fit h-96 px-1 rounded-2xl "
+                                        className="w-fit h-96 rounded-2xl "
                                         src={`https://image.tmdb.org/t/p/original${movieInfo.poster_path}`}
                                         alt={`Movie Poster ${index}`}
                                         draggable="false"
                                     />
-                                    <div className='pl-1'>
                                         <div
                                             className={`${hoverState[movieData.id]?.[movieInfo.id] ? "block" : "hidden"
                                                 } opacity-80 text-white text-center absolute  bg-black bottom-0  w-[256px] h-20 rounded-lg`} >
@@ -327,7 +331,6 @@ export default function MovieList() {
                                             {displayAdd(movieInfo.id)}
 
                                         </div>
-                                    </div>
 
                                 </motion.div>
                             </li>
@@ -335,7 +338,6 @@ export default function MovieList() {
                         ))}
                     </ul>
                 </div>
-            </div>
             <Navbar />
         </div>
     )
