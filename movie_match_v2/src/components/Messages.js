@@ -4,17 +4,16 @@ import "../global.css";
 import { useTheme } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
 import Navbar from "./Navbar";
-import { messageData } from "../messageData";
-import { userData } from '../userData'
 import { BsFillInfoCircleFill } from "react-icons/bs";
 import { TERipple } from "tw-elements-react";
 import { useNavigate } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
-import { messagePageData } from "../messagePageData";
+//import { messagePageData } from "../messagePageData";
 import { db } from "../firebase";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
-import { deleteMessages } from "../deleteMessages";
+import { collection, addDoc} from "firebase/firestore";
+import { useData } from "../context/DataContext";
 export default function Messages() {
+  const {messagePageData,deleteMessages,userData, messageData} = useData()
   const { theme } = useTheme();
   const [data, setData] = useState([])
   const [matches, setMatches] = useState([])

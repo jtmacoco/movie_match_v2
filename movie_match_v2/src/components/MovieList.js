@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { db } from "../firebase"
-import { userData } from '../userData'
+//import { userData } from '../userData'
 import { useTheme } from "../context/ThemeContext";
 import { motion } from "framer-motion";
 import { useAuth } from '../context/AuthContext';
@@ -10,7 +10,9 @@ import { BsFillCheckCircleFill } from "react-icons/bs";
 import { AiFillMinusCircle } from "react-icons/ai";
 import { getDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import ThemeToggle from './ThemeToggle';
+import { useData } from '../context/DataContext';
 export default function MovieList() {
+    const {userData} = useData()
     const [data, setData] = useState([])
     const { theme } = useTheme();
     const { currentUser } = useAuth()

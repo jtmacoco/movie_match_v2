@@ -5,7 +5,6 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { updateEmail } from "firebase/auth";
 import { updatePassword } from "firebase/auth";
-import { paste } from "@testing-library/user-event/dist/paste";
 import { deleteUserData } from "../deleteUserData";
 const AuthContext = React.createContext();
 

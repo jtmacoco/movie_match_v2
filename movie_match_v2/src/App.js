@@ -18,12 +18,14 @@ import UpdatePassword from './components/UpdatePassword';
 import MovieList from './components/MovieList';
 import ChatPage from './components/ChatPage';
 import Messages from './components/Messages';
+import { DataProvider } from './context/DataContext';
 
 function App() {
   return (
     <ThemeProvider>
       <IconProvider>
         <AuthProvider>
+          <DataProvider>
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/Home" element={
@@ -75,6 +77,7 @@ function App() {
             <Route path="/ForgotPassword" element={<ForgotPassword />} />
             <Route path="/register" element={<Register />} />
           </Routes>
+      </DataProvider>
         </AuthProvider>
       </IconProvider>
     </ThemeProvider>

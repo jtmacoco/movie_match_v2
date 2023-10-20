@@ -1,14 +1,15 @@
 import { useParams } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "../context/ThemeContext";
-import { messageData } from '../messageData';
 import { db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
+import { useData } from '../context/DataContext';
 import ThemeToggle from './ThemeToggle';
 import Navbar from './Navbar';
 import { Timestamp, limit, orderBy } from '@firebase/firestore';
 import { getDocs, query, addDoc, doc, collection } from '@firebase/firestore';
 const ChatPage = (userId) => {
+    const {messageData} = useData()
     const { usernames } = useParams();
     const [user1_Id, curUser_Id] = usernames.split('-');
     const { theme } = useTheme();

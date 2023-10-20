@@ -4,17 +4,16 @@ import "../global.css";
 import { useTheme } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
 import Navbar from "./Navbar";
-import { messageData } from "../messageData";
-import { userData } from '../userData'
-import { matchList } from "../matchesList";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 import { TERipple } from "tw-elements-react";
 import { useNavigate } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
 import { db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
+import { useData } from "../context/DataContext";
 export default function Home() {
   const { theme } = useTheme();
+  const {matchList, userData, messageData} = useData()
   const [data, setData] = useState([])
   const [matches, setMatches] = useState([])
   const [info, setInfo] = useState(false);
