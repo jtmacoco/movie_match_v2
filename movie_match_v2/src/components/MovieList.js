@@ -27,6 +27,7 @@ export default function MovieList() {
     const [startX, setStartX] = useState(0);
     const [scrollX, setScrollX] = useState(0);
     const [isMouseDown, setIsMouseDown] = useState(false);
+    const [errorRemove, setErrorRemove] = useState(false)
     useEffect(() => {
         document.title = "Movie-List"
     }, [])
@@ -97,7 +98,10 @@ export default function MovieList() {
                             return item;
                         });
                     });
-                } 
+                }
+            }
+            else {
+                setErrorRemove((prev) => !prev)
             }
         } catch (error) {
             console.error('Error removing movie: ', error);
@@ -238,7 +242,15 @@ export default function MovieList() {
     return (
         <div style={{ height: "110vh" }} className={` h-screen  ${theme === "dark" ? "bg-dark_back" : "bg-light_back"}  `}>
             <ThemeToggle />
-
+            <div className={`relative ${errorRemove ? 'hidden' : 'block'} top-20 flex items-center justify-center mx-auto`}>
+                <div class="text-center bg-red-100 border border-red-400 text-red-700 px-4 py-8 rounded relative" role="alert">
+                    <strong class="font-bold">Need at least one movie in movie list</strong>
+                    <span class="absolute top-0 bottom-0 right-0 px-4 py-3" />
+                    <button className="absolute bottom-0 right-2" type="button" onClick={()=>setErrorRemove((prev)=>!prev)}>
+                        <span className='text-sm'>Close</span>
+                    </button>
+                </div>
+            </div>
             <div className='flex justify-center items-center'>
                 <h1 className="absolute top-5 text-center text-5xl pb-14 font-movieMatch text-black dark:text-white">Your Movie List</h1>
             </div>
