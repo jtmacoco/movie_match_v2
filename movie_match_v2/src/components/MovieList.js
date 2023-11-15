@@ -12,7 +12,7 @@ import { getDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import ThemeToggle from './ThemeToggle';
 import { useData } from '../context/DataContext';
 export default function MovieList() {
-    const {userData} = useData()
+    const { userData } = useData()
     const [data, setData] = useState([])
     const { theme } = useTheme();
     const { currentUser } = useAuth()
@@ -27,9 +27,9 @@ export default function MovieList() {
     const [startX, setStartX] = useState(0);
     const [scrollX, setScrollX] = useState(0);
     const [isMouseDown, setIsMouseDown] = useState(false);
-    useEffect (() =>{
+    useEffect(() => {
         document.title = "Movie-List"
-    },[])
+    }, [])
     const toggleHover = (listId, movieId) => {
         setHoverState((prev) => ({
             ...prev,
@@ -72,30 +72,32 @@ export default function MovieList() {
 
     const handleRemove = async () => {
         try {
-            const docRef = doc(db, 'userData', documentId[0]);
-            const docSnap = await getDoc(docRef);
+            let list_size = data.reduce((total, list) => total + list.movieList.length, 0);
+            if (list_size > 1) {
+                const docRef = doc(db, 'userData', documentId[0]);
+                const docSnap = await getDoc(docRef);
 
-            if (docSnap.exists()) {
-                const docData = docSnap.data();
+                if (docSnap.exists()) {
+                    const docData = docSnap.data();
 
-                const updatedMovieList = docData.movieList.filter(movie => movie.id !== removeMovie[0].id);
-                const updatedHoverState = { ...hoverState };
-                delete updatedHoverState[documentId[0]][removeMovie[0].id];
-                setHoverState(updatedHoverState);
-                setHover(false);
-                await updateDoc(docRef, { movieList: updatedMovieList });
-                setData(prevData => {
-                    return prevData.map(item => {
-                        if (item.id === documentId[0]) {
-                            return {
-                                ...item,
-                                movieList: updatedMovieList,
-                            };
-                        }
-                        return item;
+                    const updatedMovieList = docData.movieList.filter(movie => movie.id !== removeMovie[0].id);
+                    const updatedHoverState = { ...hoverState };
+                    delete updatedHoverState[documentId[0]][removeMovie[0].id];
+                    setHoverState(updatedHoverState);
+                    setHover(false);
+                    await updateDoc(docRef, { movieList: updatedMovieList });
+                    setData(prevData => {
+                        return prevData.map(item => {
+                            if (item.id === documentId[0]) {
+                                return {
+                                    ...item,
+                                    movieList: updatedMovieList,
+                                };
+                            }
+                            return item;
+                        });
                     });
-                });
-            } else {
+                } 
             }
         } catch (error) {
             console.error('Error removing movie: ', error);
@@ -234,7 +236,7 @@ export default function MovieList() {
         setStartX(e.clientX);
     };
     return (
-        <div style={{height:"110vh"}}className={` h-screen  ${theme === "dark" ? "bg-dark_back" : "bg-light_back"}  `}>
+        <div style={{ height: "110vh" }} className={` h-screen  ${theme === "dark" ? "bg-dark_back" : "bg-light_back"}  `}>
             <ThemeToggle />
 
             <div className='flex justify-center items-center'>
@@ -303,43 +305,43 @@ export default function MovieList() {
                         </button>
                     </div>
                 </div>
-</div>
-                <div className='absolute top-[80vh] overflow-hidden   '>
-                    <ul onMouseLeave={handleMouseUp} id="image-container" className={`  ${theme === "dark" ? "bg-dark_back" : "bg-light_back"}  px-10 py-10 flex flex-row overflow-x-auto scroll-smooth`}>
-                        {movieData.map((movieInfo, index) => (
-                            <li
-                                key={index} 
-                                className=" py-5 d-flex flex-none flex flex-cols">
-                                <motion.div whileHover={{ scale: 1.2 }}
-                                    onMouseEnter={() => toggleHover(movieData.id, movieInfo.id)}
-                                    onMouseLeave={() => toggleHover(movieData.id, movieInfo.id)}
-                                >
+            </div>
+            <div className='absolute top-[80vh] overflow-hidden   '>
+                <ul onMouseLeave={handleMouseUp} id="image-container" className={`  ${theme === "dark" ? "bg-dark_back" : "bg-light_back"}  px-10 py-10 flex flex-row overflow-x-auto scroll-smooth`}>
+                    {movieData.map((movieInfo, index) => (
+                        <li
+                            key={index}
+                            className=" py-5 d-flex flex-none flex flex-cols">
+                            <motion.div whileHover={{ scale: 1.2 }}
+                                onMouseEnter={() => toggleHover(movieData.id, movieInfo.id)}
+                                onMouseLeave={() => toggleHover(movieData.id, movieInfo.id)}
+                            >
 
-                                    <img
-                                        onMouseDown={handleMouseDown}
-                                        onMouseUp={handleMouseUp}
-                                        onMouseMove={(e) => handleMouseMove(e, "image-container")}
+                                <img
+                                    onMouseDown={handleMouseDown}
+                                    onMouseUp={handleMouseUp}
+                                    onMouseMove={(e) => handleMouseMove(e, "image-container")}
 
-                                        className="w-fit h-96 rounded-2xl "
-                                        src={`https://image.tmdb.org/t/p/original${movieInfo.poster_path}`}
-                                        alt={`Movie Poster ${index}`}
-                                        draggable="false"
-                                    />
-                                        <div
-                                            className={`${hoverState[movieData.id]?.[movieInfo.id] ? "block" : "hidden"
-                                                } opacity-80 text-white text-center absolute  bg-black bottom-0  w-[256px] h-20 rounded-lg`} >
+                                    className="w-fit h-96 rounded-2xl "
+                                    src={`https://image.tmdb.org/t/p/original${movieInfo.poster_path}`}
+                                    alt={`Movie Poster ${index}`}
+                                    draggable="false"
+                                />
+                                <div
+                                    className={`${hoverState[movieData.id]?.[movieInfo.id] ? "block" : "hidden"
+                                        } opacity-80 text-white text-center absolute  bg-black bottom-0  w-[256px] h-20 rounded-lg`} >
 
 
-                                            {displayAdd(movieInfo.id)}
+                                    {displayAdd(movieInfo.id)}
 
-                                        </div>
+                                </div>
 
-                                </motion.div>
-                            </li>
+                            </motion.div>
+                        </li>
 
-                        ))}
-                    </ul>
-                </div>
+                    ))}
+                </ul>
+            </div>
             <Navbar />
         </div>
     )
