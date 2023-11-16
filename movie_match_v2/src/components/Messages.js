@@ -203,7 +203,7 @@ export default function Messages() {
         {removing ? <p>Finished</p> : <p>Remove Chats</p>}
       </button>
       <div className="w-fit px-12 pt-2 absolute top-32">
-        <div className=" overflow-y-hidden max-h-[75vh] py-6 px-14 relative gap-y-4 flex items-center flex-col  ">
+        <div className=" overflow-y-auto max-h-[75vh] py-6 px-14 relative gap-y-4 flex items-center flex-col  ">
           {mp.map(userData => (
             <>
               <div key={userData[1].uid}>
