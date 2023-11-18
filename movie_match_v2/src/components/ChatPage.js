@@ -69,10 +69,10 @@ const ChatPage = (userId) => {
     }
     useEffect(() => {
         setMessages();
-    })
+    },[message])
     useEffect(() => {
         messegeRef.current.scrollIntoView({ behavior: "smooth" })
-    }, [displayMessage])
+    },[displayMessage])
     useEffect(() => {
         if (theme === "dark") {
             document.documentElement.classList.add("dark");
@@ -124,12 +124,12 @@ const ChatPage = (userId) => {
             <ThemeToggle />
             <h1 className="absolute top-10 text-center text-5xl pb-14 font-movieMatch text-black dark:text-white">Chat with {recUsername}</h1>
             <section className='absolute top-24 w-screen bottom-24 overflow-y-auto'>
-                <div ref={messegeRef} className='flex flex-col  rounded-lg' >
+                <div className='flex flex-col  rounded-lg' >
                     {displayMessage.map((m, index) => (
                         <ChatMessage key={index} message={m} />
                     ))}
-                </div>
                 <span ref={messegeRef}></span>
+                </div>
             </section>
 
 
